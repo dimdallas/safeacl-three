@@ -50,11 +50,11 @@ export default {
   methods: {
     async register () {
       try {
-        await fetch('http://10.64.45.144:5001/auth/register', {
+        const response = await fetch('http://localhost:5001/auth/register', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify(this.credData)
-        }).then(res => res.json())
+        })/*.then(res => res.json())
             .then( res => {
               // console.log(res);
               // const inMemoryToken = res.token;
@@ -64,7 +64,16 @@ export default {
               // Store complete object, so you will be able to access 'user' and 'token' later
 
               router.push('/')
-            });
+            });*/
+        const status = response.status
+        if(status !=200){
+          return
+        }
+
+        const content = await response.json()
+        localStorage.setItem('user', JSON.stringify(content))
+        router.push('/')
+      
       }catch (e) {
         console.log(e)
         // await router.push('/signup')

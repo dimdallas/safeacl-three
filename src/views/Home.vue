@@ -1,12 +1,11 @@
 <template>
   <v-main>
-    <!-- <v-card width="500" class="teal mx-auto">
+    <v-card width="500" class="teal mx-auto">
       <v-card-title class="white--text">Home</v-card-title>
       <v-card-text class="white--text">
         {{ message }}
       </v-card-text>
-    </v-card> -->
-    
+    </v-card>
   </v-main>
 </template>
 
@@ -25,12 +24,14 @@ export default {
       try {
         const localstorageUser = JSON.parse(localStorage.getItem('user'))
         const inMemoryToken = localstorageUser.token
-        const response = await fetch('http://10.64.45.144:5001/dashboard', {
+        const response = await fetch('http://localhost:5001/dashboard', {
           headers: {'Content-Type': 'application/json', 'token': inMemoryToken},
         });
 
+        if(response.status != 200)
+          throw Error;
         const content = await response.json();
-        // console.log(content)
+        console.log(content)
         this.message = `Welcome ${content.username}`;
 
         await store.dispatch('setAuth', true);

@@ -1,11 +1,11 @@
 ﻿<template>
   <v-main>
-    <div class="scene">
+    <div id="container" class="scene">
   
     </div>
-    <!-- <form name="uploadForm" class="form-container">
+    <form name="uploadForm" class="form-container">
       <input id="uploadInput" type="file" name="myFiles" multiple>
-    </form> -->
+    </form>
     
   </v-main>
 </template>
@@ -14,7 +14,7 @@
 import * as THREE from 'three'
 // import Stats from './stats.module.js'
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader.js'
-import {$} from 'jquery'
+import $ from 'jquery'
 
 export default {
   name: "ThreeView",
@@ -41,109 +41,8 @@ export default {
     }
   },
   methods: {
-    init2: function() {
-        let container = document.getElementById('container');
-
-        this.camera = new THREE.PerspectiveCamera(70, container.clientWidth/container.clientHeight, 0.01, 10);
-        this.camera.position.z = 1;
-
-        this.scene = new THREE.Scene();
-
-        let geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
-        let material = new THREE.MeshNormalMaterial();
-
-        this.mesh = new THREE.Mesh(geometry, material);
-        this.scene.add(this.mesh);
-
-        this.renderer = new THREE.WebGLRenderer({antialias: true});
-        this.renderer.setSize(container.clientWidth, container.clientHeight);
-        container.appendChild(this.renderer.domElement);
-
-    },
-    animate2: function() {
-        requestAnimationFrame(this.animate);
-        this.mesh.rotation.x += 0.01;
-        this.mesh.rotation.y += 0.02;
-        this.renderer.render(this.scene, this.camera);
-    },
-    init() {
-      this.container = document.querySelector('.scene');
-      // let upload = document.getElementById("uploadInput")
-      // document.getElementById("uploadInput").style.cssText = upload+container;
-      // container = document.createElement('div');
-      // document.body.appendChild( container );
-
-
-      //Camera setup
-      const fov = 35;
-      // const aspect = container.clientWidth /container.clientHeight;
-      const aspect = window.innerWidth / window.innerHeight;
-      const near = 0.1;
-      const far = 100;
-      this.camera = new THREE.PerspectiveCamera( fov, aspect, near, far);
-      this.camera.position.set( 3, 0.15, 3 );
-
-      //vale target = module
-      this.cameraTarget = new THREE.Vector3( 0, - 0.25, 0 );
-
-      this.scene = new THREE.Scene();
-      this.scene.background = new THREE.Color( 0x72645b );
-      this.scene.fog = new THREE.Fog( this.scene.background, 2, 15 );
-
-      // Ground
-      const plane = new THREE.Mesh(
-          new THREE.PlaneBufferGeometry( 40, 40 ),
-          new THREE.MeshPhongMaterial( { color: 0x999999, specular: 0x101010 } )
-      );
-      plane.rotation.x = - Math.PI / 2;
-      plane.position.y = - 0.5;
-      plane.receiveShadow = true;
-      this.scene.add( plane );
-
-
-      // stats
-      // stats = new Stats();
-      // container.appendChild( stats.dom );
-
-      //For Debugging
-      const axesHelper = new THREE.AxesHelper();
-      this.scene.add( axesHelper );
-      let gridHelper = new THREE.GridHelper(5,20);
-      gridHelper.scale.set(0.2,0.2,0.2)
-      //rotates in radians
-      gridHelper.rotateX(Math.PI/2);
-      this.scene.add(gridHelper);
-
-
-      //CHOOSE FILE FROM FILE BROWSER
-      const inputElement = document.getElementById("uploadInput");
-      inputElement.addEventListener("change", this.handleFiles, false);
-
-
-      // ASCII file
-      this.loader = new STLLoader();
-
-      this.loader.load( '../assets/tibia.stl', this.load_static);
-      this.loader.load( '../assets/femur.stl', this.load_moving);
-
-
-      // Lights
-      this.scene.add( new THREE.HemisphereLight( 0x443333, 0x111122 ) );
-      this.addShadowedLight( 1, 1, 1, 0xffffff, 1.35 );
-      this.addShadowedLight( 0.5, 1, - 1, 0xffaa00, 1 );
-
-      // renderer
-      this.renderer = new THREE.WebGLRenderer( { antialias: true } );
-      this.renderer.setSize( window.innerWidth, window.innerHeight );
-      // this.renderer.setSize( this.container.clientWidth, this.container.clientHeight );
-      this.renderer.setPixelRatio( window.devicePixelRatio );
-      this.renderer.outputEncoding = THREE.sRGBEncoding;
-      this.renderer.shadowMap.enabled = true;
-      this.container.append( this.renderer.domElement);
-
-      window.addEventListener( 'resize', this.onWindowResize, true );
-    },
     load_moving(geometry){
+      console.log("anteeeeeee")
       //alert(geometry.attributes.position.count);
       const colors = [];
 
@@ -205,9 +104,12 @@ export default {
 
       // geometry.add(model_axes)
       this.rotationMesh = new THREE.Mesh( geometry, material );
-      this.rotationMesh = mesh;
-
-      mesh.name = "model"
+      this.rotationMesh.position.set( 0, 0, 0 );
+      this.rotationMesh.rotation.set(  -.5 * Math.PI, 0, 0 );
+      this.rotationMesh.scale.set( 0.005, 0.005, 0.005 );
+      this.rotationMesh.castShadow = true;
+      this.rotationMesh.receiveShadow = true;
+      this.rotationMesh.name = "model"
       this.mesh_uuid = mesh.uuid;
 
       const model_axes = new THREE.AxesHelper();
@@ -234,6 +136,90 @@ export default {
 
       this.scene.add( mesh );
     },
+    init() {
+      this.container = document.querySelector('.scene');
+      // let upload = document.getElementById("uploadInput")
+      // document.getElementById("uploadInput").style.cssText = upload+container;
+      // container = document.createElement('div');
+      // document.body.appendChild( container );
+
+
+      //Camera setup
+      const fov = 35;
+      // const aspect = container.clientWidth /container.clientHeight;
+      const aspect = window.innerWidth / window.innerHeight;
+      const near = 0.1;
+      const far = 100;
+      this.camera = new THREE.PerspectiveCamera( fov, aspect, near, far);
+      this.camera.position.set( 3, 0.15, 3 );
+
+      //vale target = module
+      this.cameraTarget = new THREE.Vector3( 0, - 0.25, 0 );
+
+      this.scene = new THREE.Scene();
+      this.scene.background = new THREE.Color( 0x72645b );
+      this.scene.fog = new THREE.Fog( this.scene.background, 2, 15 );
+
+      // Ground
+      const plane = new THREE.Mesh(
+          new THREE.PlaneBufferGeometry( 40, 40 ),
+          new THREE.MeshPhongMaterial( { color: 0x999999, specular: 0x101010 } )
+      );
+      plane.rotation.x = - Math.PI / 2;
+      plane.position.y = - 0.5;
+      plane.receiveShadow = true;
+      this.scene.add( plane );
+
+
+      // stats
+      // stats = new Stats();
+      // container.appendChild( stats.dom );
+
+      //For Debugging
+      const axesHelper = new THREE.AxesHelper();
+      this.scene.add( axesHelper );
+      let gridHelper = new THREE.GridHelper(5,20);
+      gridHelper.scale.set(0.2,0.2,0.2)
+      //rotates in radians
+      gridHelper.rotateX(Math.PI/2);
+      this.scene.add(gridHelper);
+
+
+      //CHOOSE FILE FROM FILE BROWSER
+      const inputElement = document.getElementById("uploadInput");
+      inputElement.addEventListener("change", this.handleFiles, false);
+
+      console.log("init")
+      // ASCII file
+      this.loader = new STLLoader();
+
+      // this.loader.load( '../assets/tibia.stl', this.load_static);
+      this.loader.load( '../assets/tibia.stl', function(geometry){
+        console.log("in static")
+        this.load_static(geometry)
+      });
+      this.loader.load( '../assets/femur.stl', function(geometry){
+        this.load_moving(geometry)
+      });
+
+      // Lights
+      this.scene.add( new THREE.HemisphereLight( 0x443333, 0x111122 ) );
+      this.addShadowedLight( 1, 1, 1, 0xffffff, 1.35 );
+      this.addShadowedLight( 0.5, 1, - 1, 0xffaa00, 1 );
+
+      // renderer
+      this.renderer = new THREE.WebGLRenderer( { antialias: true } );
+      this.renderer.setSize( window.innerWidth, window.innerHeight );
+      // this.renderer.setSize( this.container.clientWidth, this.container.clientHeight );
+      this.renderer.setPixelRatio( window.devicePixelRatio );
+      this.renderer.outputEncoding = THREE.sRGBEncoding;
+      this.renderer.shadowMap.enabled = true;
+      this.container.append( this.renderer.domElement);
+
+      window.addEventListener( 'resize', this.onWindowResize, true );
+
+      // this.animate()
+    },
     handleFiles(){
       this.fileList = this.files;
       // console.log("hey")
@@ -242,7 +228,7 @@ export default {
       // console.log(scene.getObjectByName("model"))
 
       this.scene.remove(this.scene.getObjectByName("model"))
-      this.loader.load( "./house/"+filename, this.load_moving);
+      this.loader.load( "../assets/"+filename, this.load_moving);
 
       // console.log(scene)
     },
@@ -331,8 +317,8 @@ export default {
     }
   },
   mounted() {
-    this.init2()
-    this.animate2()
+    this.init()
+    // this.animate()
   }
 }
 </script>

@@ -43,22 +43,35 @@ export default {
   methods: {
     async login() {
       try {
-        // console.log(this.input)
-        await fetch('http://10.64.45.144:5001/auth/login', {
+        console.log(JSON.stringify(this.input))
+        const response = await fetch('http://localhost:5001/auth/login', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify(this.input)
-        }).then(res => res.json())
-            .then( res => {
-              // console.log(res);
-              // const inMemoryToken = res.token;
-              // console.log(inMemoryToken)
-              localStorage.setItem('user', JSON.stringify(res));
-              // 'user' is the generic key to store in LocalStorage. You could use any name you want
-              // Store complete object, so you will be able to access 'user' and 'token' later
+        })/*.then( res => {
+            // console.log(res)
+            if(res.status != 200)
+              return
+            // console.log(res);
+            // const inMemoryToken = res.token;
+            // console.log(inMemoryToken)
+            localStorage.setItem('user', JSON.stringify(res.json()));
+            // 'user' is the generic key to store in LocalStorage. You could use any name you want
+            // Store complete object, so you will be able to access 'user' and 'token' later
 
-              router.push('/')
-            });
+            router.push('/')
+          });*/
+        
+        const status = response.status
+        if(status !=200){
+          return
+        }
+
+        const content = await response.json()
+        localStorage.setItem('user', JSON.stringify(content))
+        router.push('/')
+
+        
       }catch (e){
         console.log(e)
         // await router.push('/login')
