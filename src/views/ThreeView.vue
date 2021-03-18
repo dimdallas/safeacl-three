@@ -4,16 +4,22 @@
   
     </div>
     <form name="uploadForm" class="form-container">
-      <input id="uploadInput" type="file" name="myFiles" multiple>
+      <!-- <input id="uploadInput" type="file" name="handleFiles"> -->
+      <input id="uploadInput" type="file">
     </form>
-    
+    <!-- <div class="form">
+      <div class="dropbox">
+        <input type="file" :name="uploadFieldName" @change="handleFiles($event.target.name, $event.target.files); fileCount = $event.target.files.length"
+          class="input-file">
+      </div>
+    </div> -->
   </v-main>
 </template>
 
 <script>
 import * as THREE from 'three'
 // import Stats from './stats.module.js'
-import { STLLoader } from 'three/examples/jsm/loaders/STLLoader.js'
+import {STLLoader} from 'three/examples/jsm/loaders/STLLoader.js'
 import $ from 'jquery'
 
 export default {
@@ -41,8 +47,119 @@ export default {
     }
   },
   methods: {
+    init() {
+      this.container = document.querySelector('.scene');
+      // let upload = document.getElementById("uploadInput")
+      // document.getElementById("uploadInput").style.cssText = upload+container;
+      // container = document.createElement('div');
+      // document.body.appendChild( container );
+
+
+      //Camera setup
+      const fov = 35;
+      // const aspect = container.clientWidth /container.clientHeight;
+      const aspect = window.innerWidth / window.innerHeight;
+      const near = 0.1;
+      const far = 100;
+      this.camera = new THREE.PerspectiveCamera( fov, aspect, near, far);
+      this.camera.position.set( 3, 0.15, 3 );
+
+      //vale target = module
+      this.cameraTarget = new THREE.Vector3( 0, - 0.25, 0 );
+
+      this.scene = new THREE.Scene();
+      this.scene.background = new THREE.Color( 0x72645b );
+      this.scene.fog = new THREE.Fog( this.scene.background, 2, 15 );
+
+      // Ground
+      const plane = new THREE.Mesh(
+          new THREE.PlaneBufferGeometry( 40, 40 ),
+          new THREE.MeshPhongMaterial( { color: 0x999999, specular: 0x101010 } )
+      );
+      plane.rotation.x = - Math.PI / 2;
+      plane.position.y = - 0.5;
+      plane.receiveShadow = true;
+      this.scene.add( plane );
+
+
+      // stats
+      // stats = new Stats();
+      // container.appendChild( stats.dom );
+
+      //For Debugging
+      // const axesHelper = new THREE.AxesHelper();
+      // this.scene.add( axesHelper );
+      // let gridHelper = new THREE.GridHelper(5,20);
+      // gridHelper.scale.set(0.2,0.2,0.2)
+      // //rotates in radians
+      // gridHelper.rotateX(Math.PI/2);
+      // this.scene.add(gridHelper);
+
+
+      //CHOOSE FILE FROM FILE BROWSER
+      const inputElement = document.getElementById("uploadInput");
+      inputElement.addEventListener("change", this.handleFiles, false);
+
+      // ASCII file
+      this.loader = new STLLoader();
+
+      // this.loader.load( '../assets/tibia.stl', this.load_static);
+      this.loader.load( 'tibia.stl', this.load_static);
+      this.loader.load( 'femur.stl', this.load_moving);
+
+      // Lights
+      this.scene.add( new THREE.HemisphereLight( 0x443333, 0x111122 ) );
+      this.addShadowedLight( 1, 1, 1, 0xffffff, 1.35 );
+      this.addShadowedLight( 0.5, 1, - 1, 0xffaa00, 1 );
+
+      // renderer
+      this.renderer = new THREE.WebGLRenderer( { antialias: true } );
+      this.renderer.setSize( window.innerWidth, window.innerHeight );
+      // this.renderer.setSize( this.container.clientWidth, this.container.clientHeight );
+      this.renderer.setPixelRatio( window.devicePixelRatio );
+      this.renderer.outputEncoding = THREE.sRGBEncoding;
+      this.renderer.shadowMap.enabled = true;
+      this.container.append( this.renderer.domElement);
+
+      window.addEventListener( 'resize', this.onWindowResize, true );
+    },
+    handleFiles(){
+      this.fileList = event.target.files;
+      let filename= this.fileList[0].name
+      // console.log(filename)
+      // console.log(scene.getObjectByName("model"))
+
+      this.scene.remove(this.scene.getObjectByName("model"))
+      // this.loader.load( "../assets/"+filename, this.load_moving);
+      this.loader.load(filename, this.load_moving);
+
+      // console.log(scene)
+    },
+    addShadowedLight(x,y,z,color,intensity){
+      const directionalLight = new THREE.DirectionalLight( color, intensity );
+      directionalLight.position.set( x, y, z );
+      this.scene.add( directionalLight );
+
+      directionalLight.castShadow = true;
+
+      const d = 1;
+      directionalLight.shadow.camera.left = - d;
+      directionalLight.shadow.camera.right = d;
+      directionalLight.shadow.camera.top = d;
+      directionalLight.shadow.camera.bottom = - d;
+
+      directionalLight.shadow.camera.near = 1;
+      directionalLight.shadow.camera.far = 4;
+
+      directionalLight.shadow.bias = - 0.002;
+    },
+    onWindowResize(){
+      this.camera.aspect = window.innerWidth / window.innerHeight;
+      this.camera.updateProjectionMatrix();
+
+      this.renderer.setSize( window.innerWidth, window.innerHeight );
+    },
     load_moving(geometry){
-      console.log("anteeeeeee")
       //alert(geometry.attributes.position.count);
       const colors = [];
 
@@ -101,24 +218,21 @@ export default {
 
       mesh.castShadow = true;
       mesh.receiveShadow = true;
+      mesh.name = "model"
 
       // geometry.add(model_axes)
-      this.rotationMesh = new THREE.Mesh( geometry, material );
-      this.rotationMesh.position.set( 0, 0, 0 );
-      this.rotationMesh.rotation.set(  -.5 * Math.PI, 0, 0 );
-      this.rotationMesh.scale.set( 0.005, 0.005, 0.005 );
-      this.rotationMesh.castShadow = true;
-      this.rotationMesh.receiveShadow = true;
-      this.rotationMesh.name = "model"
+      // this.rotationMesh = new THREE.Mesh( geometry, material );
+      this.rotationMesh = mesh
+
       this.mesh_uuid = mesh.uuid;
 
-      const model_axes = new THREE.AxesHelper();
-      model_axes.scale.set(100,100,100)
-      mesh.add( model_axes );
+      // const model_axes = new THREE.AxesHelper();
+      // model_axes.scale.set(100,100,100)
+      // mesh.add( model_axes );
 
-      this.scene.add( mesh );
+      this.scene.add( this.rotationMesh );
 
-      // this.animate();
+      this.animate();
     },
     load_static(geometry){
       const material = new THREE.MeshPhongMaterial( { color: 0xfffffff, specular: 0x111111, shininess: 100 } );
@@ -131,130 +245,10 @@ export default {
       mesh.castShadow = true;
       mesh.receiveShadow = true;
 
-      this.staticMesh = new THREE.Mesh( geometry, material );
+      // this.staticMesh = new THREE.Mesh( geometry, material );
       this.staticMesh = mesh;
 
-      this.scene.add( mesh );
-    },
-    init() {
-      this.container = document.querySelector('.scene');
-      // let upload = document.getElementById("uploadInput")
-      // document.getElementById("uploadInput").style.cssText = upload+container;
-      // container = document.createElement('div');
-      // document.body.appendChild( container );
-
-
-      //Camera setup
-      const fov = 35;
-      // const aspect = container.clientWidth /container.clientHeight;
-      const aspect = window.innerWidth / window.innerHeight;
-      const near = 0.1;
-      const far = 100;
-      this.camera = new THREE.PerspectiveCamera( fov, aspect, near, far);
-      this.camera.position.set( 3, 0.15, 3 );
-
-      //vale target = module
-      this.cameraTarget = new THREE.Vector3( 0, - 0.25, 0 );
-
-      this.scene = new THREE.Scene();
-      this.scene.background = new THREE.Color( 0x72645b );
-      this.scene.fog = new THREE.Fog( this.scene.background, 2, 15 );
-
-      // Ground
-      const plane = new THREE.Mesh(
-          new THREE.PlaneBufferGeometry( 40, 40 ),
-          new THREE.MeshPhongMaterial( { color: 0x999999, specular: 0x101010 } )
-      );
-      plane.rotation.x = - Math.PI / 2;
-      plane.position.y = - 0.5;
-      plane.receiveShadow = true;
-      this.scene.add( plane );
-
-
-      // stats
-      // stats = new Stats();
-      // container.appendChild( stats.dom );
-
-      //For Debugging
-      const axesHelper = new THREE.AxesHelper();
-      this.scene.add( axesHelper );
-      let gridHelper = new THREE.GridHelper(5,20);
-      gridHelper.scale.set(0.2,0.2,0.2)
-      //rotates in radians
-      gridHelper.rotateX(Math.PI/2);
-      this.scene.add(gridHelper);
-
-
-      //CHOOSE FILE FROM FILE BROWSER
-      const inputElement = document.getElementById("uploadInput");
-      inputElement.addEventListener("change", this.handleFiles, false);
-
-      console.log("init")
-      // ASCII file
-      this.loader = new STLLoader();
-
-      // this.loader.load( '../assets/tibia.stl', this.load_static);
-      this.loader.load( '../assets/tibia.stl', function(geometry){
-        console.log("in static")
-        this.load_static(geometry)
-      });
-      this.loader.load( '../assets/femur.stl', function(geometry){
-        this.load_moving(geometry)
-      });
-
-      // Lights
-      this.scene.add( new THREE.HemisphereLight( 0x443333, 0x111122 ) );
-      this.addShadowedLight( 1, 1, 1, 0xffffff, 1.35 );
-      this.addShadowedLight( 0.5, 1, - 1, 0xffaa00, 1 );
-
-      // renderer
-      this.renderer = new THREE.WebGLRenderer( { antialias: true } );
-      this.renderer.setSize( window.innerWidth, window.innerHeight );
-      // this.renderer.setSize( this.container.clientWidth, this.container.clientHeight );
-      this.renderer.setPixelRatio( window.devicePixelRatio );
-      this.renderer.outputEncoding = THREE.sRGBEncoding;
-      this.renderer.shadowMap.enabled = true;
-      this.container.append( this.renderer.domElement);
-
-      window.addEventListener( 'resize', this.onWindowResize, true );
-
-      // this.animate()
-    },
-    handleFiles(){
-      this.fileList = this.files;
-      // console.log("hey")
-      let filename= this.fileList[0].name
-      // console.log(filename)
-      // console.log(scene.getObjectByName("model"))
-
-      this.scene.remove(this.scene.getObjectByName("model"))
-      this.loader.load( "../assets/"+filename, this.load_moving);
-
-      // console.log(scene)
-    },
-    addShadowedLight(x,y,z,color,intensity){
-      const directionalLight = new THREE.DirectionalLight( color, intensity );
-      directionalLight.position.set( x, y, z );
-      this.scene.add( directionalLight );
-
-      directionalLight.castShadow = true;
-
-      const d = 1;
-      directionalLight.shadow.camera.left = - d;
-      directionalLight.shadow.camera.right = d;
-      directionalLight.shadow.camera.top = d;
-      directionalLight.shadow.camera.bottom = - d;
-
-      directionalLight.shadow.camera.near = 1;
-      directionalLight.shadow.camera.far = 4;
-
-      directionalLight.shadow.bias = - 0.002;
-    },
-    onWindowResize(){
-      this.camera.aspect = window.innerWidth / window.innerHeight;
-      this.camera.updateProjectionMatrix();
-
-      this.renderer.setSize( window.innerWidth, window.innerHeight );
+      this.scene.add( this.staticMesh );
     },
     animate(){
       requestAnimationFrame( this.animate );
@@ -310,7 +304,7 @@ export default {
       this.rotationBorder = this.rotationBorder + this.step;
       this.camera.position.x = Math.cos( Math.PI * this.rotation) * this.zoom;
       this.camera.position.z = Math.sin( Math.PI * this.rotation) * this.zoom;
-
+      
       this.rotationMesh.rotation.set( -0.1  * Math.PI * this.rotationBorder, 0,0 );
       this.camera.lookAt( this.cameraTarget );
       this.renderer.render( this.scene, this.camera );
@@ -338,12 +332,20 @@ body{
 .scene,
 canvas{
   position: absolute;
+  left: 0%;
   width: 100%;
   height: 100%;
 }
 
 .form-container {
   position: absolute;
+  bottom: 30px;
+  right: 0;
+  max-width: 200px;
+}
+
+.form-container-rel {
+  position: relative;
   bottom: 30px;
   right: 0;
   max-width: 200px;
