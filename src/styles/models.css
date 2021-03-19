@@ -1,0 +1,41 @@
+/* *{
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+} */
+
+body {
+    font-family: sans-serif;
+    overflow: hidden;
+    /*background: url("https://i.stack.imgur.com/pHq2y.png");*/
+}
+
+.scene,
+canvas {
+    display: flex;
+    position: absolute;
+    left: 0%;
+    /* top gets you down, 0% is highest */
+    top: 0%;
+    width: 60%;
+    height: 100%;
+    /* margin: 1%; */
+}
+
+.form-container {
+    position: relative;
+    bottom: 0px;
+    right: 0;
+    max-width: 200px;
+}
+
+.random{
+    height: 550px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid black;
+    margin: 1rem 0;
+    padding: 1rem;
+    overflow: auto;
+}
