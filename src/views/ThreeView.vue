@@ -1,17 +1,20 @@
 ﻿<template>
-  <v-main>
-    <div id="container" class="scene"></div>
-    <form name="uploadForm" class="form-container">
-      <!-- <input id="uploadInput" type="file" name="handleFiles"> -->
-      <input id="uploadInput" type="file" />
-    </form>
-    <!-- <div class="form">
-      <div class="dropbox">
-        <input type="file" :name="uploadFieldName" @change="handleFiles($event.target.name, $event.target.files); fileCount = $event.target.files.length"
-          class="input-file">
-      </div>
-    </div> -->
-  </v-main>
+  <v-content>
+    <v-container fluid>
+      <v-container id="container" class="scene"></v-container>
+      <!-- <v-card  class="scene">Something</v-card> -->
+      <v-form name="uploadForm" class="form-container">
+        <!-- <input id="uploadInput" type="file" name="handleFiles"> -->
+        <input id="uploadInput" type="file"/>
+      </v-form>
+      <!-- <div class="form">
+        <div class="dropbox">
+          <input type="file" :name="uploadFieldName" @change="handleFiles($event.target.name, $event.target.files); fileCount = $event.target.files.length"
+            class="input-file">
+        </div>
+      </div> -->
+    </v-container>
+  </v-content>
 </template>
 
 <script>
@@ -56,7 +59,7 @@ export default {
       //Camera setup
       const fov = 35;
       // const aspect = this.container.clientWidth /this.container.clientHeight;
-      const aspect = window.innerWidth / window.innerHeight;
+      const aspect = (window.innerWidth/3) / window.innerHeight;
       const near = 0.1;
       const far = 100;
       this.camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
@@ -108,7 +111,7 @@ export default {
       // this.addShadowedLight( 0.5, 1, - 1, 0xffaa00, 1 );
 
       this.renderer = new THREE.WebGLRenderer({ antialias: true });
-      this.renderer.setSize(window.innerWidth, window.innerHeight);
+      this.renderer.setSize(window.innerWidth/3, window.innerHeight);
       // this.renderer.setSize(this.container.width, this.container.height);
       // this.renderer.setSize(
       //   this.renderer.domElement.width,
@@ -177,9 +180,9 @@ export default {
     },
     onWindowResize() {
       //FOR FULL WINDOW
-      this.camera.aspect = window.innerWidth / window.innerHeight;
+      this.camera.aspect = (window.innerWidth/3) / window.innerHeight;
       this.camera.updateProjectionMatrix();
-      this.renderer.setSize(window.innerWidth, window.innerHeight);
+      this.renderer.setSize(window.innerWidth/3, window.innerHeight);
 
       //CONTAINER SIZE
       // this.camera.aspect = this.container.width / this.container.height;

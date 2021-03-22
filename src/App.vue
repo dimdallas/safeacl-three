@@ -6,9 +6,11 @@
       background: linear-gradient(to right, #008080, #6DF3F3, #008080);"
   >
     <Nav/>
-    <v-main class="main">
-      <router-view/>
-    </v-main>
+    <v-content>
+      <v-main>
+        <router-view/>
+      </v-main>
+    </v-content>
     <Footer/>
   </v-app>
 </template>
@@ -23,14 +25,17 @@ export default Vue.extend({
   components: {
     Nav,
     Footer
+  },
+  data() {
+    //
   }
 });
 </script>
 
 <style>
 /* .main{
+  position: relative;
   width: 100%;
   height: 90%;
-  top: 20px;
 } */
 </style>

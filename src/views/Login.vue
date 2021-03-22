@@ -1,5 +1,5 @@
 <template>
-  <v-main class="form-signin">
+  <v-content class="form-signin">
     <v-form width="500" class="teal mx-auto" @submit.prevent="login">
       <v-card-title class="white--text">Login</v-card-title>
       <v-card-text>
@@ -23,7 +23,7 @@
       </v-card-actions>
 
     </v-form>
-  </v-main>
+  </v-content>
 </template>
 
 <script>

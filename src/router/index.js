@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '@/views/Home.vue'
 import Login from '@/views/Login.vue'
 import Signup from '@/views/Signup.vue'
+import PatientProfile from '@/views/PatientProfile'
 import ThreeView from '@/views/ThreeView'
 import ThreeViewSimple from '@/views/ThreeViewSimple'
 
@@ -23,6 +24,11 @@ const routes = [
     path: '/signup',
     name: 'Signup',
     component: Signup
+  },
+  {
+    path: '/patient',
+    name: 'PatientProfile',
+    component: PatientProfile
   },
   {
     path: '/three',
