@@ -1,20 +1,24 @@
 ﻿<template>
-  <v-content>
-    <v-container fluid>
-      <v-container id="container" class="scene"></v-container>
-      <!-- <v-card  class="scene">Something</v-card> -->
-      <v-form name="uploadForm" class="form-container">
-        <!-- <input id="uploadInput" type="file" name="handleFiles"> -->
-        <input id="uploadInput" type="file"/>
-      </v-form>
+  <v-main class="pt-0">
+      <v-container fluid style="position: relative; top: 70px; margin: 0px; padding: 0px; width: 100%">
+        <v-layout wrap>
+          <v-card id="container" class="mycard white" shaped>
+            <div  class="myscene"></div>
+          </v-card>
+          <v-form name="uploadForm" class="form-container">
+          <!-- <input id="uploadInput" type="file" name="handleFiles"> -->
+            <input id="uploadInput" type="file"/>
+          </v-form>
+        </v-layout>
+      </v-container>
+      
       <!-- <div class="form">
         <div class="dropbox">
           <input type="file" :name="uploadFieldName" @change="handleFiles($event.target.name, $event.target.files); fileCount = $event.target.files.length"
             class="input-file">
         </div>
       </div> -->
-    </v-container>
-  </v-content>
+  </v-main>
 </template>
 
 <script>
@@ -35,7 +39,7 @@ export default {
       cameraTarget: null,
       container: null,
       stats: null,
-      rotationSpeed: 0.01,
+      mouseSpeed: 0.02,
       zoomStep: 0.0005,
       rotationBorder: 0,
       step: 0,
@@ -46,6 +50,8 @@ export default {
       loader: null,
       mesh_uuid: null,
       press: false,
+      width: window.innerWidth/2,
+      height: window.innerHeight*4/5,
     };
   },
   methods: {
@@ -55,11 +61,13 @@ export default {
       // document.getElementById("uploadInput").style.cssText = upload+container;
       // container = document.createElement('div');
       // document.body.appendChild( container );
+      this.width = this.container.clientWidth
+      this.height = this.container.clientHeight
 
       //Camera setup
       const fov = 35;
       // const aspect = this.container.clientWidth /this.container.clientHeight;
-      const aspect = (window.innerWidth/3) / window.innerHeight;
+      const aspect = this.width / this.height;
       const near = 0.1;
       const far = 100;
       this.camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
@@ -111,7 +119,7 @@ export default {
       // this.addShadowedLight( 0.5, 1, - 1, 0xffaa00, 1 );
 
       this.renderer = new THREE.WebGLRenderer({ antialias: true });
-      this.renderer.setSize(window.innerWidth/3, window.innerHeight);
+      this.renderer.setSize(this.width, this.height);
       // this.renderer.setSize(this.container.width, this.container.height);
       // this.renderer.setSize(
       //   this.renderer.domElement.width,
@@ -138,11 +146,16 @@ export default {
         if (!this.press) {
           return;
         }
-
+        
+        let newPosY = this.camera.position.y + (event.movementY * this.mouseSpeed) / 10;
+        
         if (event.button == 0) {
-          this.rotation += (event.movementX * this.rotationSpeed) / 10;
-          this.camera.position.y += (event.movementY * this.rotationSpeed) / 10;
+          this.rotation += (event.movementX * this.mouseSpeed) / 10;
+          if(newPosY >= -0.4 && newPosY <=0.2){
+            this.camera.position.y =newPosY;
+          }
         }
+
       });
       this.container.append(this.renderer.domElement);
 
@@ -180,9 +193,11 @@ export default {
     },
     onWindowResize() {
       //FOR FULL WINDOW
-      this.camera.aspect = (window.innerWidth/3) / window.innerHeight;
+      this.width = this.container.clientWidth
+      this.height = this.container.clientHeight
+      this.camera.aspect = this.width / this.height;
       this.camera.updateProjectionMatrix();
-      this.renderer.setSize(window.innerWidth/3, window.innerHeight);
+      this.renderer.setSize(this.width, this.height);
 
       //CONTAINER SIZE
       // this.camera.aspect = this.container.width / this.container.height;
@@ -334,7 +349,7 @@ export default {
   mounted() {
     this.init();
     // this.animate()
-  },
+  }
 };
 </script>
 

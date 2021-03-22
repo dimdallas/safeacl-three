@@ -1,10 +1,10 @@
 <template>
-  <v-content>
+  <v-main class="pt-0">
     <side-nav/>
     <v-container fluid ma-0 pa-0 fill-height>
     <v-layout row fill-height>
       <v-flex md3 >
-        <v-main>
+        <v-main >
             <v-flex>
               <v-card class="ma-10 text-center mx-auto" shaped elevation="10">
                 <v-avatar class="mt-n7" size="60" elevation="10">
@@ -67,7 +67,7 @@
                   </v-list-item>
                 </v-list>
                 <v-divider></v-divider>
-                <v-list two-line="" subheader="">
+                <!-- <v-list two-line="" subheader="">
                   <v-list-item>
                     <v-list-item-avatar size="35">
                       <img src="favicon.ico">
@@ -77,10 +77,10 @@
                       <v-list-item-subtitle>California Hospital Medical</v-list-item-subtitle>
                     </v-list-item-content>
                   </v-list-item>
-                </v-list>
+                </v-list> -->
                 <v-list two-line="" subheader="" class="mt-n5">
                   <v-list-item>
-                    <v-list-item-title>Surgeon</v-list-item-title>
+                    <v-list-item-title>Surgery</v-list-item-title>
                     <v-list-item-subtitle>femur pain</v-list-item-subtitle>
                   </v-list-item>
                 </v-list>
@@ -99,54 +99,23 @@
         </v-main>
       </v-flex>
       <v-flex md9 >
-        <v-main>
+        <v-main class="pt-0">
           <three-view />
         </v-main>
       </v-flex>
     </v-layout>
     </v-container>
-  </v-content>
+  </v-main>
 </template>
 
 <script>
 import SideNav from "../components/SideNav.vue";
 import ThreeView from './ThreeView.vue';
 
-const gradients = [
-  ["#222"],
-  ["#42b3f4"],
-  ["red", "orange", "yellow"],
-  ["purple", "violet"],
-  ["#00c6ff", "#F0F", "#FF0"],
-  ["#f72047", "#ffd200", "#1feaea"],
-];
+
 export default {
   components: { SideNav, ThreeView },
   name: "PatientProfile",
-  data() {
-    return {
-      width: 2,
-      radius: 10,
-      padding: 8,
-      lineCap: "round",
-      gradient: gradients[5],
-      value: [0, 2, 5, 9, 5, 10, 3, 5, 0, 0, 1, 8, 2, 9, 0],
-      gradientDirection: "top",
-      gradients,
-      fill: false,
-      type: "trend",
-      autoLineWidth: false,
-      arrayEvents: null,
-      date2: new Date().toISOString.substr(0, 10),
-    };
-  },
-  methods: {
-    functionEvents(date) {
-      const [, , day] = date.split("-");
-      if ([12, 17, 28].includes(parseInt(day, 10))) return ["red", "#00f"];
-      return false;
-    },
-  },
   //   computed: {
   //     theme() {
   //       return this.$vuetify.theme.dark ? "dark" : "light";

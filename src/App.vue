@@ -6,11 +6,9 @@
       background: linear-gradient(to right, #008080, #6DF3F3, #008080);"
   >
     <Nav/>
-    <v-content>
-      <v-main>
-        <router-view/>
-      </v-main>
-    </v-content>
+    <v-main>
+      <router-view/>
+    </v-main>
     <Footer/>
   </v-app>
 </template>
