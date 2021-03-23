@@ -1,5 +1,5 @@
 <template>
-  <v-content>
+  <v-main>
     <side-nav/>
     <v-card width="500" class="teal mx-auto corrected">
       <v-card-title class="white--text">Home</v-card-title>
@@ -7,7 +7,7 @@
         {{ message }}
       </v-card-text>
     </v-card>
-  </v-content>
+  </v-main>
 </template>
 
 <script>
@@ -29,27 +29,22 @@ export default {
       try {
         const localstorageUser = JSON.parse(localStorage.getItem('user'))
         const inMemoryToken = localstorageUser.token
-        const response = await fetch('http://localhost:5001/dashboard', {
+        const response = await fetch('http://10.64.92.213:5001/dashboard', {
           headers: {'Content-Type': 'application/json', 'token': inMemoryToken},
         });
 
         if(response.status != 200)
           throw Error;
         const content = await response.json();
-        console.log(content)
+        // console.log(content)
         this.message = `Welcome ${content.username}`;
 
-        await store.dispatch('setAuth', true);
+        await store.dispatch('set_Auth', true).then(console.log("home dispatch"));
+        // await store.actions.set_Auth(true);
       }catch (e){
-        this.message = 'Lorem ipsum dolor sit amet,\n' +
-            '        consectetur adipiscing elit,\n' +
-            '        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n' +
-            '        Ut enim ad minim veniam,\n' +
-            '        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n' +
-            '        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\n' +
-            '        Excepteur sint occaecat cupidatat non proident,\n' +
-            '        sunt in culpa qui officia deserunt mollit anim id est laborum.'
-        await store.dispatch('setAuth', false);
+        this.message = 'You are not logged in!'
+        await store.dispatch('set_Auth', false);
+        // await store.actions.set_Auth(false);
       }
     }
   },

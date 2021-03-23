@@ -8,24 +8,24 @@
             <v-flex>
               <v-card class="ma-10 text-center mx-auto" shaped elevation="10">
                 <v-avatar class="mt-n7" size="60" elevation="10">
-                  <img src="favicon.ico" />
+                  <img src="img6.png" />
                 </v-avatar>
                 <v-card-title class="layout justify-center"
-                  >Bes Willis</v-card-title
+                  >Γεώργιος Παππάς</v-card-title
                 >
                 <v-card-subtitle class="layout justify-center"
-                  >24 years old, California</v-card-subtitle
+                  >24 χρονών, Βόλος</v-card-subtitle
                 >
                 <v-list class="mt-n5">
                   <v-list-item>
                     <v-list-item-title class="cyan--text text--darken-1"
-                      >Blood</v-list-item-title
+                      >Τύπος Αίματος</v-list-item-title
                     >
                     <v-list-item-title class="cyan--text text--darken-1"
-                      >Height</v-list-item-title
+                      >Ύψος</v-list-item-title
                     >
                     <v-list-item-title class="cyan--text text--darken-1"
-                      >Weight</v-list-item-title
+                      >Βάρος</v-list-item-title
                     >
                   </v-list-item>
                   <v-list-item>
@@ -50,20 +50,20 @@
                   </v-list-item>
                   <v-list-item>
                     <v-list-item-title class="cyan--text text--darken-1"
-                      >MON</v-list-item-title
+                      >ΔΕΥ</v-list-item-title
                     >
                     <v-list-item-title class="cyan--text text--darken-1"
-                      >WED</v-list-item-title
+                      >ΤΕΤ</v-list-item-title
                     >
                     <v-list-item-title class="cyan--text text--darken-1"
-                      >FRI</v-list-item-title
+                      >ΠΑΡ</v-list-item-title
                     >
                     <v-list-item-title class="cyan--text text--darken-1"
-                      >SUN</v-list-item-title
+                      >ΚΥΡ</v-list-item-title
                     >
                   </v-list-item>
                   <v-list-item class="mt-n5">
-                    <v-list-item-subtitle>2 times in a day before food</v-list-item-subtitle>
+                    <v-list-item-subtitle>2 φορές την ημέρα πριν το φαγητό</v-list-item-subtitle>
                   </v-list-item>
                 </v-list>
                 <v-divider></v-divider>
@@ -80,17 +80,17 @@
                 </v-list> -->
                 <v-list two-line="" subheader="" class="mt-n5">
                   <v-list-item>
-                    <v-list-item-title>Surgery</v-list-item-title>
-                    <v-list-item-subtitle>femur pain</v-list-item-subtitle>
+                    <v-list-item-title>Χειρουργείο</v-list-item-title>
+                    <v-list-item-subtitle>πόνος στον μοιρό</v-list-item-subtitle>
                   </v-list-item>
                 </v-list>
                 <v-list two-line="" subheader="" class="my-n8">
                   <v-list-item>
-                    <v-list-item-title class="cyan--text text--darken-1">Date</v-list-item-title>
-                    <v-list-item-title class="cyan--text text--darken-1">Time</v-list-item-title>
+                    <v-list-item-title class="cyan--text text--darken-1">Ημερομηνία</v-list-item-title>
+                    <v-list-item-title class="cyan--text text--darken-1">Ώρα</v-list-item-title>
                   </v-list-item>
                   <v-list-item class="mt-n10">
-                    <v-list-item-title>24 Mar 2021</v-list-item-title>
+                    <v-list-item-title>24 Μαρτίου 2021</v-list-item-title>
                     <v-list-item-title>14:45</v-list-item-title>
                   </v-list-item>
                 </v-list>

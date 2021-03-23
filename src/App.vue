@@ -23,9 +23,6 @@ export default Vue.extend({
   components: {
     Nav,
     Footer
-  },
-  data() {
-    //
   }
 });
 </script>

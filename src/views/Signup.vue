@@ -34,6 +34,7 @@
 
 <script>
 import router from "@/router/index";
+import store from "@/store/index";
 
 export default {
   name: "Signup",
@@ -50,7 +51,7 @@ export default {
   methods: {
     async register () {
       try {
-        const response = await fetch('http://localhost:5001/auth/register', {
+        const response = await fetch('http://10.64.92.213:5001/auth/register', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify(this.credData)
@@ -72,7 +73,9 @@ export default {
 
         const content = await response.json()
         localStorage.setItem('user', JSON.stringify(content))
-        router.push('/')
+        store.dispatch("set_Auth", true);
+        // await store.actions.set_Auth(false);
+        router.push('/dashboard')
       
       }catch (e) {
         console.log(e)

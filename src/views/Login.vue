@@ -28,6 +28,7 @@
 
 <script>
 import router from "@/router/index";
+import store from "@/store/index";
 
 export default {
   name: "Login",
@@ -44,7 +45,7 @@ export default {
     async login() {
       try {
         console.log(JSON.stringify(this.input))
-        const response = await fetch('http://localhost:5001/auth/login', {
+        const response = await fetch('http://10.64.92.213:5001/auth/login', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify(this.input)
@@ -69,7 +70,9 @@ export default {
 
         const content = await response.json()
         localStorage.setItem('user', JSON.stringify(content))
-        router.push('/')
+        await store.dispatch("set_Auth", true).then(console.log("dispatched"))
+        // await store.actions.set_Auth(true);
+        await router.push('/dashboard')
 
         
       }catch (e){
