@@ -16,7 +16,7 @@
                 <v-card-subtitle class="layout justify-center"
                   >24 χρονών, Βόλος</v-card-subtitle
                 >
-                <v-list class="mt-n5">
+                <v-list class="mt-n5 ma-0 ">
                   <v-list-item>
                     <v-list-item-title class="cyan--text text--darken-1"
                       >Τύπος Αίματος</v-list-item-title
@@ -30,8 +30,8 @@
                   </v-list-item>
                   <v-list-item>
                     <v-list-item-subtitle>B+</v-list-item-subtitle>
-                    <v-list-item-subtitle>170 cm</v-list-item-subtitle>
-                    <v-list-item-subtitle>60 Kg</v-list-item-subtitle>
+                    <v-list-item-subtitle>165 cm</v-list-item-subtitle>
+                    <v-list-item-subtitle>70 Kg</v-list-item-subtitle>
                   </v-list-item>
                 </v-list>
               </v-card>

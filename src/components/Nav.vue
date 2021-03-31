@@ -2,7 +2,7 @@
   <v-app-bar clipped-left app dark color="teal">
     <v-toolbar-title>SafeACL</v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-btn to="/home" text rounded>Home</v-btn>
+    <v-btn to="/profile" text rounded>Home</v-btn>
     <!-- <v-btn to="/patient" text rounded>Patient</v-btn>
     <v-btn to="/three" text rounded>Three</v-btn> -->
     <!-- <div v-if="authCompute"> -->
@@ -13,8 +13,8 @@
     <!-- <div v-else>
       <v-btn to="/login" text rounded @click="logout">Logout</v-btn>
     </div> -->
-    <v-btn text rounded disabled>About</v-btn>
-    <v-btn text rounded disabled>Contact us</v-btn>
+    <v-btn to="/about" text rounded>About</v-btn>
+    <!-- <v-btn text rounded disabled>Contact us</v-btn> -->
   </v-app-bar>
 </template>
 

@@ -51,7 +51,7 @@ export default {
   methods: {
     async register () {
       try {
-        const response = await fetch('http://10.64.92.213:5001/auth/register', {
+        const response = await fetch('http://10.64.92.213:8883/auth/register', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify(this.credData)

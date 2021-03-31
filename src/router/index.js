@@ -1,20 +1,20 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '@/views/Home.vue'
+import About from '@/views/About.vue'
 import Login from '@/views/Login.vue'
 import Signup from '@/views/Signup.vue'
 import Dashboard from '@/views/Dashboard.vue'
+import DoctorProfile from '@/views/DoctorProfile.vue'
 import PatientProfile from '@/views/PatientProfile'
 import ThreeView from '@/views/ThreeView'
-import ThreeViewSimple from '@/views/ThreeViewSimple'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/home',
-    name: 'Home',
-    component: Home
+    path: '/about',
+    name: 'About',
+    component: About
   },
   {
     path: '/login',
@@ -32,6 +32,11 @@ const routes = [
     component: Dashboard
   },
   {
+    path: '/profile',
+    name: 'DoctorProfile',
+    component: DoctorProfile
+  },
+  {
     path: '/patient',
     name: 'PatientProfile',
     component: PatientProfile
@@ -40,11 +45,6 @@ const routes = [
     path: '/three',
     name: 'ThreeView',
     component: ThreeView
-  },
-  {
-    path: '/threesimple',
-    name: 'ThreeViewSimple',
-    component: ThreeViewSimple
   }
 ]
 

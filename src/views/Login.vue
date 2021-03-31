@@ -44,8 +44,8 @@ export default {
   methods: {
     async login() {
       try {
-        console.log(JSON.stringify(this.input))
-        const response = await fetch('http://10.64.92.213:5001/auth/login', {
+        // console.log(JSON.stringify(this.input))
+        const response = await fetch('http://10.64.92.213:8883/auth/login', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify(this.input)

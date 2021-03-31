@@ -56,6 +56,31 @@ export default {
       ],
     };
   },
+  methods:{
+    async init() {
+      try {
+        const localstorageUser = JSON.parse(localStorage.getItem('user'))
+        const inMemoryToken = localstorageUser.token
+        const response = await fetch('http://10.64.92.213:8883/patients', {
+          headers: {'Content-Type': 'application/json', 'Authorization': inMemoryToken},
+        });
+
+        if(response.status != 200){
+          throw Error;
+        }
+        const content = await response.json();
+        console.log(content)
+        /* patient:
+        */
+
+      }catch (e){
+        console.log(e)
+      }
+    }
+  },
+  mounted(){
+    this.init();
+  }
 };
 </script>
 
