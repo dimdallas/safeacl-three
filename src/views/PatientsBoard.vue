@@ -32,28 +32,49 @@ export default {
   data() {
     return {
       patientList: [
-        {
-          id: 1,
-          name: "Γεώργιος Παππάς",
-          email: "gpappas@gmail.com",
-          img: "img6.png",
-          description: "Πόνος στον μοιρό",
+        /* {
+            patient_id: 2,
+            name: "Dimitris",
+            surname: "Dallas",
+            id_num: "1111",
+            age: 23,
+            height: "180",
+            bloodtype: "B+",
+            email: "ddallas@gmail.com",
+            description: "femur pain",
+            createdAt: "2021-03-31",
+            updatedAt: "2021-03-31",
+            user_id: "b310ebe3-384e-4cc8-a0b4-8a17f86d25be"
         },
         {
-          id: 2,
-          name: "Ιωάννης Παπαδόπουλος",
-          email: "ioanpapad@gmail.com",
-          img: "img4.png",
-          description: "Πόνος στον μοιρό",
+            patient_id: 3,
+            name: "Nikos",
+            surname: "Aggelopoulos",
+            id_num: "2222",
+            age: 24,
+            height: "190",
+            bloodtype: "A+",
+            email: "nangelo@gmail.com",
+            description: "femur pain",
+            createdAt: "2021-04-01",
+            updatedAt: "2021-04-01",
+            user_id: "b310ebe3-384e-4cc8-a0b4-8a17f86d25be"
         },
         {
-          id: 3,
-          name: "Κωνσταντίνος Ιωαννίδης",
-          email: "konioan@gmail.com",
-          img: "img5.png",
-          description: "Πόνος στον μοιρό",
-        },
-      ],
+            patient_id: 4,
+            name: "Giorgos",
+            surname: "Kletsas",
+            id_num: "3333",
+            age: 23,
+            height: "185",
+            bloodtype: "AB+",
+            email: "gkle@gmail.com",
+            description: "femur pain",
+            createdAt: "2021-04-01",
+            updatedAt: "2021-04-01",
+            user_id: "b310ebe3-384e-4cc8-a0b4-8a17f86d25be"
+        } */
+      ]
     };
   },
   methods:{
@@ -69,7 +90,8 @@ export default {
           throw Error;
         }
         const content = await response.json();
-        console.log(content)
+        this.patientList = content.message
+        // console.log(this.patientList)
         /* patient:
         */
 

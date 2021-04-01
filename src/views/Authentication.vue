@@ -1,0 +1,183 @@
+<template>
+  <v-main class="form-signin">
+    <v-window v-model="step">
+      <v-window-item :value="1">
+        <v-form width="500" class="teal mx-auto" @submit.prevent="login">
+          <v-card-title class="white--text">Login</v-card-title>
+          <v-card-text>
+            <v-text-field
+              dark
+              v-model="input.email"
+              label="Email"
+              prepend-icon="mdi-email-outline"
+            />
+            <v-text-field
+              dark
+              v-model="input.password"
+              label="Password"
+              :type="showPassword ? 'text' : 'password'"
+              prepend-icon="mdi-lock"
+              :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append="showPassword = !showPassword"
+            />
+          </v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-btn dark color="teal darken-3" type="submit">Login</v-btn>
+          </v-card-actions>
+        </v-form>
+
+        <v-form width="500" class="teal darken-3 mx-auto">
+          <v-card-title class="white--text"
+            >Not a registered user?</v-card-title
+          >
+          <v-card-actions>
+            <v-btn dark color="teal" @click="step++">Sign Up</v-btn>
+          </v-card-actions>
+        </v-form>
+      </v-window-item>
+      <v-window-item :value="2">
+        <v-form width="500" class="teal mx-auto" @submit.prevent="register">
+          <v-card-title class="white--text">Sign Up</v-card-title>
+          <v-card-text>
+            <v-text-field
+              dark
+              v-model="credData.username"
+              label="Username"
+              prepend-icon="mdi-account-circle"
+            />
+            <v-text-field
+              dark
+              v-model="credData.email"
+              label="Email"
+              prepend-icon="mdi-email-outline"
+            />
+            <v-text-field
+              dark
+              v-model="credData.password"
+              label="Password"
+              :type="showPassword ? 'text' : 'password'"
+              prepend-icon="mdi-lock"
+              :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append="showPassword = !showPassword"
+            />
+          </v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-btn dark color="teal darken-3" type="submit">Register</v-btn>
+          </v-card-actions>
+        </v-form>
+        <v-form width="500" class="teal darken-3 mx-auto">
+          <v-card-title class="white--text"
+            >Already a registered user?</v-card-title
+          >
+          <v-card-actions>
+            <v-btn dark color="teal" @click="step--">Login</v-btn>
+          </v-card-actions>
+        </v-form>
+      </v-window-item>
+    </v-window>
+  </v-main>
+</template>
+
+<script>
+import router from "@/router/index";
+import store from "@/store/index";
+
+export default {
+  name: "Login",
+  data() {
+    return {
+      input: {
+        email: "",
+        password: "",
+      },
+      credData: {
+        username: '',
+        email: '',
+        password: ''
+      },
+      showPassword: false,
+      step: 1,
+    };
+  },
+  props: {
+    source: String,
+  },
+  methods: {
+    async login() {
+      try {
+        // console.log(JSON.stringify(this.input))
+        const response = await fetch("http://10.64.92.213:8883/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(this.input),
+        }); /*.then( res => {
+            // console.log(res)
+            if(res.status != 200)
+              return
+            // console.log(res);
+            // const inMemoryToken = res.token;
+            // console.log(inMemoryToken)
+            localStorage.setItem('user', JSON.stringify(res.json()));
+            // 'user' is the generic key to store in LocalStorage. You could use any name you want
+            // Store complete object, so you will be able to access 'user' and 'token' later
+
+            router.push('/')
+          });*/
+
+        const status = response.status;
+        if (status != 200) {
+          return;
+        }
+
+        const content = await response.json();
+        localStorage.setItem("user", JSON.stringify(content));
+        await store.dispatch("set_Auth", true).then(console.log("dispatched"));
+        // await store.actions.set_Auth(true);
+        await router.push("/dashboard");
+      } catch (e) {
+        console.log(e);
+        // await router.push('/login')
+      }
+    },
+    async register () {
+      try {
+        const response = await fetch('http://10.64.92.213:8883/auth/register', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(this.credData)
+        })/*.then(res => res.json())
+            .then( res => {
+              // console.log(res);
+              // const inMemoryToken = res.token;
+              // console.log(inMemoryToken)
+              localStorage.setItem('user', JSON.stringify(res));
+              // 'user' is the generic key to store in LocalStorage. You could use any name you want
+              // Store complete object, so you will be able to access 'user' and 'token' later
+
+              router.push('/')
+            });*/
+        const status = response.status
+        if(status !=200){
+          return
+        }
+
+        const content = await response.json()
+        localStorage.setItem('user', JSON.stringify(content))
+        store.dispatch("set_Auth", true);
+        // await store.actions.set_Auth(false);
+        router.push('/dashboard')
+      
+      }catch (e) {
+        console.log(e)
+        // await router.push('/signup')
+      }
+    }
+  },
+};
+</script>
+
+<style>
+@import "../styles/form.css";
+</style>

@@ -5,7 +5,7 @@
         <v-list-item-avatar class="mt-n0" size="50" elevation="10">
           <v-img src="img6.png" />
         </v-list-item-avatar>
-        <v-list-item-title>{{ patient.name }}</v-list-item-title>
+        <v-list-item-title>{{ patient.name +' ' + patient.surname }}</v-list-item-title>
         <v-list-item-subtitle class=".body-2">{{ patient.email }}</v-list-item-subtitle>
         <v-list-item-subtitle>{{ patient.description }}</v-list-item-subtitle>
         <v-btn to="/patient" text rounded>See Profile</v-btn>

@@ -21,7 +21,6 @@
       <v-card-actions>
         <v-btn dark color="teal darken-3" type="submit">Login</v-btn>
       </v-card-actions>
-
     </v-form>
   </v-main>
 </template>

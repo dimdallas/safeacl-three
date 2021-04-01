@@ -116,11 +116,9 @@ import ThreeView from './ThreeView.vue';
 export default {
   components: { SideNav, ThreeView },
   name: "PatientProfile",
-  //   computed: {
-  //     theme() {
-  //       return this.$vuetify.theme.dark ? "dark" : "light";
-  //     },
-  //   },
+  props: {
+    patient: Object,
+  }
 };
 </script>
 

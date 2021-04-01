@@ -1,33 +1,23 @@
 <template>
   <v-main>
-    <v-card class="mx-auto" max-width="434" tile>
-      <v-img
-        height="100%"
-        src="https://cdn.vuetifyjs.com/images/cards/server-room.jpg"
-      ></v-img>
-      <v-col>
-        <v-avatar size="100" style="position: absolute; top: 130px">
-          <v-img
-            src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"
-          ></v-img>
-        </v-avatar>
-      </v-col>
-      <v-list-item color="rgba(0, 0, 0, .4)">
-        <v-list-item-content>
-          <v-list-item-title class="title">Dr. Katsanos</v-list-item-title>
-          <v-list-item-subtitle>Orthopedic Doctor</v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
+    <side-nav/>
+    <v-card width="500" class="teal mx-auto corrected">
+      <v-card-title class="white--text">Home</v-card-title>
+      <v-card-text class="white--text">
+        {{ message }}
+      </v-card-text>
     </v-card>
   </v-main>
 </template>
 
 <script>
 import store from "@/store/index";
+import SideNav from '../components/SideNav.vue'
 
 export default {
-  name: "DoctorProfile",
-  data() {
+  components: { SideNav },
+    name:"Overview",
+    data() {
     return {
       message: "",
     };
@@ -79,12 +69,9 @@ export default {
   mounted() {
     this.init();
   },
-};
+}
 </script>
 
 <style>
-.corrected {
-  position: relative;
-  right: 120px;
-}
+
 </style>
