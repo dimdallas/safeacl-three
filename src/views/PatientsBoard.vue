@@ -80,8 +80,7 @@ export default {
   methods:{
     async init() {
       try {
-        const localstorageUser = JSON.parse(localStorage.getItem('user'))
-        const inMemoryToken = localstorageUser.token
+        const inMemoryToken = localStorage.getItem('token')
         const response = await fetch('http://10.64.92.213:8883/patients', {
           headers: {'Content-Type': 'application/json', 'Authorization': inMemoryToken},
         });

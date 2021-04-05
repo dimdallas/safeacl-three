@@ -1,29 +1,43 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import account from './modules/account'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    authenticated: false
-  },
-  getters: {
-    getAuth()  {
-      return this.state.authenticated
-    }
   },
   mutations: {
-    SET_AUTH (auth) {
-      // console.log("in SET_AUTH")
-      this.state.authenticated = auth
-    }
   },
   actions: {
-    set_Auth: ({commit, auth}) => commit('SET_AUTH', auth)
   },
   modules: {
+    account
   }
 })
+
+
+// export default new Vuex.Store({
+//   state: {
+//     authenticated: false
+//   },
+//   getters: {
+//     getAuth()  {
+//       return this.state.authenticated
+//     }
+//   },
+//   mutations: {
+//     SET_AUTH (auth) {
+//       // console.log("in SET_AUTH")
+//       this.state.authenticated = auth
+//     }
+//   },
+//   actions: {
+//     set_Auth: ({commit, auth}) => commit('SET_AUTH', auth)
+//   },
+//   modules: {
+//   }
+// })
 
 // export default new Vuex.Store({
 //   state: {

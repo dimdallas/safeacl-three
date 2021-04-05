@@ -1,6 +1,6 @@
 <template>
   <v-main>
-    <side-nav/>
+    <side-nav />
     <v-card width="500" class="teal mx-auto corrected">
       <v-card-title class="white--text">Home</v-card-title>
       <v-card-text class="white--text">
@@ -11,22 +11,39 @@
 </template>
 
 <script>
-import store from "@/store/index";
-import SideNav from '../components/SideNav.vue'
+import SideNav from "../components/SideNav.vue";
 
 export default {
-  components: { SideNav },
-    name:"Overview",
-    data() {
+  components: {
+    SideNav,
+   },
+  name: "Overview",
+  data() {
     return {
       message: "",
     };
   },
   methods: {
+    getOverview(){
+      const inMemoryToken = localStorage.getItem("token");
+      // console.log(inMemoryToken)
+      this.$store
+        .dispatch("getOverview", inMemoryToken)
+        .then((response) => {
+          console.log("overview  " + response);
+
+          const content = response.json();
+          this.message = `Welcome ${content.user.username}`;
+        })
+        .catch((error) => {
+          this.message = "You are not logged in!";
+          console.log("overview error");
+          console.log(error);
+        });
+    },
     async init() {
       try {
-        const localstorageUser = JSON.parse(localStorage.getItem("user"));
-        const inMemoryToken = localstorageUser.token;
+        const inMemoryToken = localStorage.getItem("token");
         const response = await fetch("http://10.64.92.213:8883/users/profile", {
           headers: {
             "Content-Type": "application/json",
@@ -38,7 +55,7 @@ export default {
           throw Error;
         }
         const content = await response.json();
-        console.log(content);
+        // console.log(content);
         /* user:
             address: "Nitlan"
             createdAt: "2021-03-27"
@@ -53,25 +70,17 @@ export default {
             username: "member 
         */
         this.message = `Welcome ${content.user.username}`;
-
-        await store
-          .dispatch("set_Auth", true)
-          .then(console.log("home dispatch"));
-        // await store.actions.set_Auth(true);
       } catch (e) {
         this.message = "You are not logged in!";
-        await store.dispatch("set_Auth", false);
-        // await store.actions.set_Auth(false);
         console.log(e);
       }
     },
   },
   mounted() {
-    this.init();
+    this.getOverview();
   },
-}
+};
 </script>
 
 <style>
-
 </style>

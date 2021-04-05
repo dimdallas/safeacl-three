@@ -23,7 +23,6 @@
 </template>
 
 <script>
-import store from "@/store/index";
 
 export default {
   name: "DoctorProfile",
@@ -35,8 +34,7 @@ export default {
   methods: {
     async init() {
       try {
-        const localstorageUser = JSON.parse(localStorage.getItem("user"));
-        const inMemoryToken = localstorageUser.token;
+        const inMemoryToken = localStorage.getItem('token');
         const response = await fetch("http://10.64.92.213:8883/users/profile", {
           headers: {
             "Content-Type": "application/json",
@@ -63,15 +61,8 @@ export default {
             username: "member 
         */
         this.message = `Welcome ${content.user.username}`;
-
-        await store
-          .dispatch("set_Auth", true)
-          .then(console.log("home dispatch"));
-        // await store.actions.set_Auth(true);
       } catch (e) {
         this.message = "You are not logged in!";
-        await store.dispatch("set_Auth", false);
-        // await store.actions.set_Auth(false);
         console.log(e);
       }
     },
