@@ -12,10 +12,10 @@ export default {
     },
     getCalls(route, headers) {
         // console.log(headers)
-        const getConfig = {
+        const config = {
             headers: headers
         }
-        return axios.get('http://10.64.92.213:8883' + route, getConfig)
+        return axios.get('http://10.64.92.213:8883' + route, config)
             .then(response => {
                 return response
             })

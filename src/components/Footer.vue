@@ -1,6 +1,6 @@
 <template>
   <!-- <v-footer v-bind="localAttrs" padless> -->
-  <v-footer app padless>
+  <v-footer padless>
     <v-card flat tile width="100%" class="teal text-center">
       <!--        <v-card-text>-->
       <!--          <v-btn-->

@@ -1,53 +1,72 @@
 <template>
   <v-main>
-    <v-card class="mx-auto" max-width="434" tile>
-      <v-img
-        height="100%"
-        src="https://cdn.vuetifyjs.com/images/cards/server-room.jpg"
-      ></v-img>
+    <v-row>
       <v-col>
-        <v-avatar size="100" style="position: absolute; top: 130px">
+        <v-card class="mx-auto" max-width="900" shaped>
           <v-img
-            src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"
-          ></v-img>
-        </v-avatar>
+            class="mx-auto"
+            height="100%"
+            width="100%"
+            src="https://cdn.vuetifyjs.com/images/cards/server-room.jpg"
+          >
+            <v-row align="end" class="fill-height">
+              <v-col align-self="start" class="pa-0" cols="12">
+                <v-avatar
+                  size="180"
+                  style="position: absolute; bottom: 20px; left: 20px"
+                >
+                  <v-img src="img6.png"></v-img>
+                </v-avatar>
+              </v-col>
+            </v-row>
+          </v-img>
+          <v-list color="rgba(0, 0, 0, .1)">
+            <v-row>
+              <v-col>
+                <v-list-item>
+                  <v-list-item-content>
+                    <v-list-item-title class="title">{{
+                      info.name + " " + info.surname
+                    }}</v-list-item-title>
+                    <v-list-item-subtitle
+                      >Orthopedic Doctor</v-list-item-subtitle
+                    >
+                    <v-divider></v-divider>
+                    <v-list-item-content>
+                      {{ info.email }}
+                    </v-list-item-content>
+                    <v-list-item-content>
+                      {{ info.phone }}
+                    </v-list-item-content>
+                    <v-list-item-content>
+                      {{ info.address }}
+                    </v-list-item-content>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-col>
+              <v-spacer></v-spacer>
+              <v-col>
+                <v-list-item>
+                  <v-list-item-content
+                    >This is the description of the doctor</v-list-item-content
+                  >
+                </v-list-item>
+              </v-col>
+            </v-row>
+          </v-list>
+        </v-card>
       </v-col>
-      <v-list-item color="rgba(0, 0, 0, .4)">
-        <v-list-item-content>
-          <v-list-item-title class="title">Dr. Katsanos</v-list-item-title>
-          <v-list-item-subtitle>Orthopedic Doctor</v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-    </v-card>
+    </v-row>
   </v-main>
 </template>
 
 <script>
-
 export default {
   name: "DoctorProfile",
   data() {
     return {
-      message: "",
-    };
-  },
-  methods: {
-    async init() {
-      try {
-        const inMemoryToken = localStorage.getItem('token');
-        const response = await fetch("http://10.64.92.213:8883/users/profile", {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: inMemoryToken,
-          },
-        });
-
-        if (response.status != 200) {
-          throw Error;
-        }
-        const content = await response.json();
-        console.log(content);
-        /* user:
+      info: {},
+      /* user:
             address: "Nitlan"
             createdAt: "2021-03-27"
             email: "test1@email.gr"
@@ -60,15 +79,32 @@ export default {
             user_id: "b310ebe3-384e-4cc8-a0b4-8a17f86d25be"
             username: "member 
         */
-        this.message = `Welcome ${content.user.username}`;
-      } catch (e) {
-        this.message = "You are not logged in!";
-        console.log(e);
+    };
+  },
+  methods: {
+    getProfile(){
+      const inMemoryToken = localStorage.getItem("token");
+      if(inMemoryToken == null){
+        this.$router.push('/authentication')
+        return
       }
-    },
+
+      // console.log(inMemoryToken)
+      this.$store
+        .dispatch("getProfile", inMemoryToken)
+        .then(response => {
+          // console.log(response);
+
+          this.info = response.data.user
+        })
+        .catch((error) => {
+          console.log("profile error");
+          console.log(error);
+        });
+    }
   },
   mounted() {
-    this.init();
+    this.getProfile();
   },
 };
 </script>

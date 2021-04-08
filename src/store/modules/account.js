@@ -13,7 +13,7 @@ const getters = {          /**Retrieve Data from Store,get the data from the sta
 }
 
 const mutations = {
-    retrieveToken(state, {token}) {
+    retrieveToken(state, { token }) {
         state.token = token
     },
     deleteToken(state) {
@@ -41,7 +41,7 @@ const actions = {
                     localStorage.setItem('token', token);
                     // localStorage.setItem('user_id', userId)
 
-                    context.commit('retrieveToken', {token})
+                    context.commit('retrieveToken', { token })
                     resolve(response)
 
                 })
@@ -50,6 +50,16 @@ const actions = {
                     reject(error)
                 })
         })
+    },
+    deleteToken(context) {
+        if (context.getters.loggedIn) {
+
+            //delete the token && user_id
+            localStorage.removeItem('token')
+            // localStorage.removeItem('user_id')
+
+            context.commit('deleteToken')
+        }
     },
     registerUser(context, payload) {
         return new Promise((resolve, reject) => {
@@ -67,7 +77,7 @@ const actions = {
                 })
         })
     },
-    getOverview(context, token){
+    getProfile(context, token) {
         // console.log(token)
         return new Promise((resolve, reject) => {
             const headers = {
@@ -76,9 +86,9 @@ const actions = {
             }
             // console.log(headers)
             BackEndApi.getCalls('/users/profile', headers)
-                .then((response) => {
+                .then(response => {
                     resolve(response)
-                    console.log(response)
+                    // console.log(response)
                 })
                 .catch(error => {
                     // console.log(error)
@@ -86,16 +96,45 @@ const actions = {
                 })
         })
     },
-    deleteToken(context) {
-        if (context.getters.loggedIn) {
-
-            //delete the token && user_id
-            localStorage.removeItem('token')
-            // localStorage.removeItem('user_id')
-
-            context.commit('deleteToken')
-        }
-    }
+    getPatients(context, token) {
+        // console.log(token)
+        return new Promise((resolve, reject) => {
+            const headers = {
+                'Content-Type': 'application/json',
+                Authorization: token
+            }
+            // console.log(headers)
+            BackEndApi.getCalls('/patients', headers)
+                .then(response => {
+                    resolve(response)
+                    // console.log(response)
+                })
+                .catch(error => {
+                    // console.log(error)
+                    reject(error)
+                })
+        })
+    },
+    getLatestPatient(context, token) {
+        // console.log(token)
+        return new Promise((resolve, reject) => {
+            const headers = {
+                'Content-Type': 'application/json',
+                Authorization: token
+            }
+            // console.log(headers)
+            BackEndApi.getCalls('/patients', headers)
+                .then(response => {
+                    const patients = response.data.message
+                    console.log(patients)
+                    resolve(patients)
+                })
+                .catch(error => {
+                    // console.log(error)
+                    reject(error)
+                })
+        })
+    },
 }
 
 export default {

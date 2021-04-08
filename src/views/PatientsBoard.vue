@@ -22,13 +22,12 @@
 <script>
 import SideNav from "../components/SideNav.vue";
 import PatientEntry from "./PatientEntry.vue";
-
 export default {
   components: {
     SideNav,
     PatientEntry,
   },
-  name: "Dashboard",
+  name: "PatientsBoard",
   data() {
     return {
       patientList: [
@@ -78,29 +77,29 @@ export default {
     };
   },
   methods:{
-    async init() {
-      try {
-        const inMemoryToken = localStorage.getItem('token')
-        const response = await fetch('http://10.64.92.213:8883/patients', {
-          headers: {'Content-Type': 'application/json', 'Authorization': inMemoryToken},
-        });
-
-        if(response.status != 200){
-          throw Error;
-        }
-        const content = await response.json();
-        this.patientList = content.message
-        // console.log(this.patientList)
-        /* patient:
-        */
-
-      }catch (e){
-        console.log(e)
+    getPatients(){
+      const inMemoryToken = localStorage.getItem("token");
+      if(inMemoryToken == null){
+        this.$router.push('/authentication')
+        return
       }
-    }
+
+      // console.log(inMemoryToken)
+      this.$store
+        .dispatch("getPatients", inMemoryToken)
+        .then(response => {
+          console.log(response);
+
+          this.patientList = response.data.message
+        })
+        .catch((error) => {
+          console.log("profile error");
+          console.log(error);
+        });
+    },
   },
   mounted(){
-    this.init();
+    this.getPatients();
   }
 };
 </script>
