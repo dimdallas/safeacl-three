@@ -4,11 +4,11 @@
     <v-card
       height="90%"
       width="100%"
-      class="d-flex flex-column teal darken-4 mx-auto corrected"
+      class="d-flex flex-column teal lighten-3 mx-auto corrected"
     >
       <v-row justify="center" align="center">
         <v-col>
-          <v-card-title class="white--text" style="margin-left: 13%">
+          <v-card-title class="black--text" style="margin-left: 13%">
             {{ message }}
           </v-card-title>
         </v-col>
@@ -17,9 +17,11 @@
       <v-row>
         <!-- <v-spacer></v-spacer> -->
         <v-col>
-          <v-card class="red mx-auto" width="200" height="200">
-            <v-card-title>Patient</v-card-title>
-          </v-card>
+          <patient-card
+            :patient="latestPatient"
+            :key="latestPatient.id_num"
+            @parentFunc="displayProfileEvent"
+          />
         </v-col>
         <!-- <v-spacer></v-spacer> -->
         <v-col>
@@ -35,15 +37,18 @@
 
 <script>
 import SideNav from "../components/SideNav.vue";
+import PatientCard from "../components/PatientCard.vue";
+import BackEndApi from "../services/api/backEnd";
 
 export default {
   components: {
     SideNav,
+    PatientCard,
   },
   name: "Overview",
   data() {
     return {
-      patient: Object,
+      latestPatient: {},
       message: "",
     };
   },
@@ -51,35 +56,31 @@ export default {
     getOverview() {
       const inMemoryToken = localStorage.getItem("token");
       if (inMemoryToken == null) {
+        console.log(inMemoryToken);
         this.$router.push("/authentication");
         return;
       }
 
-      // console.log(inMemoryToken)
-      this.$store
-        .dispatch("getProfile", inMemoryToken)
-        .then((response) => {
-          // console.log(response);
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: inMemoryToken,
+        },
+      };
 
-          /* user:
-              address: "Nitlan"
-              createdAt: "2021-03-27"
-              email: "test1@email.gr"
-              name: "member"
-              password: 
-              phone: "6931231323"
-              role: "Member"
-              surname: "member"
-              updatedAt: "2021-03-27"
-              user_id: "b310ebe3-384e-4cc8-a0b4-8a17f86d25be"
-              username: "member 
-          */
+      BackEndApi.getCalls("/users/profile", config)
+        .then((response) => {
           this.message = `Welcome ${response.data.user.username}`;
         })
         .catch((error) => {
           this.message = "You are not logged in!";
           console.log("overview error");
-          console.log(error);
+          console.log(error.response.data.message);
+          // localStorage.removeItem("token")
+          this.$store.dispatch("deleteToken").then(() => {
+            console.log("removed old token");
+          });
+          this.$router.push("/authentication");
         });
     },
     getPatient() {
@@ -89,17 +90,42 @@ export default {
         return;
       }
 
-      // console.log(inMemoryToken)
-      this.$store
-        .dispatch("getLatestPatient", inMemoryToken)
-        .then((response) => {
-          console.log(response);
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: inMemoryToken,
+        },
+      };
 
+      BackEndApi.getCalls("/patients", config)
+        .then((response) => {
+          const patients = response.data.message;
+
+          // patients.sort(function (a, b) {
+          //   // Turn your strings into dates, and then subtract them
+          //   // to get a value that is either negative, positive, or zero.
+          //   return new Date(b.updatedAt) - new Date(a.updatedAt);
+          // });
+
+          var patient = patients[0];
+          patients.forEach((element) => {
+            if (element.updatedAt > patient.updatedAt) {
+              patient = element;
+            }
+          });
+
+          this.latestPatient = patient;
         })
         .catch((error) => {
-          console.log("profile error");
-          console.log(error);
+          console.log("getPatient error");
+          console.log(error.response.data.message);
         });
+    },
+    displayProfileEvent(valueFromChild) {
+      console.log("from child " + valueFromChild);
+
+      console.log(this.latestPatient);
+      // this.step++;
     },
   },
   mounted() {

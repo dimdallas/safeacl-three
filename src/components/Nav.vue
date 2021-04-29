@@ -48,10 +48,6 @@ export default {
     // },
   },
   computed: {
-    authCompute() {
-      // console.log(store.state.authenticated)
-      return store.state.authenticated;
-    },
     loggedIn() {
       return this.$store.getters.loggedIn;
     },

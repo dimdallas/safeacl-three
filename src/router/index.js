@@ -3,10 +3,11 @@ import VueRouter from 'vue-router'
 import About from '@/views/About.vue'
 import Authentication from '@/views/Authentication.vue'
 import Overview from '@/views/Overview.vue'
+import SimulationsBoard from '@/views/SimulationsBoard.vue'
 import PatientsBoard from '@/views/PatientsBoard.vue'
 import PatientsTable from '@/views/PatientsTable.vue'
 import DoctorProfile from '@/views/DoctorProfile.vue'
-import PatientProfile from '@/views/PatientProfile'
+import PatientProfileStatic from '@/views/PatientProfileStatic.vue'
 
 Vue.use(VueRouter)
 
@@ -15,6 +16,11 @@ const routes = [
     path: '/overview',
     name: 'Overview',
     component: Overview
+  },
+  {
+    path: '/simulations',
+    name: 'SimulationsBoard',
+    component: SimulationsBoard
   },
   {
     path: '/patients',
@@ -28,8 +34,8 @@ const routes = [
   },
   {
     path: '/patient',
-    name: 'PatientProfile',
-    component: PatientProfile
+    name: 'PatientProfileStatic',
+    component: PatientProfileStatic
   },
   {
     path: '/authentication',

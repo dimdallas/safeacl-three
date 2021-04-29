@@ -1,18 +1,27 @@
 ﻿<template>
   <v-main class="pt-0">
-      <v-container fluid style="position: relative; top: 70px; margin: 0px; padding: 0px; width: 100%">
-        <v-layout wrap>
-          <v-card id="container" class="mycard white" shaped>
-            <div  class="myscene"></div>
-          </v-card>
-          <v-form name="uploadForm" class="form-container">
+    <v-container
+      fluid
+      style="
+        position: relative;
+        right: 200px;
+        margin: 0px;
+        padding: 0px;
+        width: 100%;
+      "
+    >
+      <v-layout wrap>
+        <v-card id="container" class="mycard white" shaped>
+          <div class="myscene"></div>
+        </v-card>
+        <v-form name="uploadForm" class="form-container">
           <!-- <input id="uploadInput" type="file" name="handleFiles"> -->
-            <input id="uploadInput" type="file"/>
-          </v-form>
-        </v-layout>
-      </v-container>
-      
-      <!-- <div class="form">
+          <input id="uploadInput" type="file" />
+        </v-form>
+      </v-layout>
+    </v-container>
+
+    <!-- <div class="form">
         <div class="dropbox">
           <input type="file" :name="uploadFieldName" @change="handleFiles($event.target.name, $event.target.files); fileCount = $event.target.files.length"
             class="input-file">
@@ -50,19 +59,19 @@ export default {
       loader: null,
       mesh_uuid: null,
       press: false,
-      width: window.innerWidth/2,
-      height: window.innerHeight*4/5,
+      width: window.innerWidth / 2,
+      height: (window.innerHeight * 4) / 5,
     };
   },
   methods: {
     init() {
       // this.container = document.querySelector(".scene");
-      this.container  = document.getElementById("container")
+      this.container = document.getElementById("container");
       // document.getElementById("uploadInput").style.cssText = upload+container;
       // container = document.createElement('div');
       // document.body.appendChild( container );
-      this.width = this.container.clientWidth
-      this.height = this.container.clientHeight
+      this.width = this.container.clientWidth;
+      this.height = this.container.clientHeight;
 
       //Camera setup
       const fov = 35;
@@ -128,6 +137,16 @@ export default {
       this.renderer.setPixelRatio(window.devicePixelRatio);
       this.renderer.outputEncoding = THREE.sRGBEncoding;
       this.renderer.shadowMap.enabled = true;
+
+      //for toggling mouse scroll
+      function toggleWheel(event){
+        event.preventDefault()
+      }
+
+      this.renderer.domElement.addEventListener("mouseenter", () => {
+        // console.log("entered")
+        window.addEventListener("wheel", toggleWheel, { passive:false })
+      });
       this.renderer.domElement.addEventListener("mousewheel", (event) => {
         let newZoom = this.zoom - event.wheelDelta * this.zoomStep;
         if (newZoom > 1 && newZoom < 3) this.zoom = newZoom;
@@ -140,22 +159,24 @@ export default {
         this.press = false;
       });
       this.renderer.domElement.addEventListener("mouseleave", () => {
+        // console.log("left")
+        window.removeEventListener("wheel", toggleWheel, {passive: false})
         this.press = false;
       });
       this.renderer.domElement.addEventListener("mousemove", (event) => {
         if (!this.press) {
           return;
         }
-        
-        let newPosY = this.camera.position.y + (event.movementY * this.mouseSpeed) / 10;
-        
+
+        let newPosY =
+          this.camera.position.y + (event.movementY * this.mouseSpeed) / 10;
+
         if (event.button == 0) {
           this.rotation += (event.movementX * this.mouseSpeed) / 10;
-          if(newPosY >= -0.4 && newPosY <=0.2){
-            this.camera.position.y =newPosY;
+          if (newPosY >= -0.4 && newPosY <= 0.2) {
+            this.camera.position.y = newPosY;
           }
         }
-
       });
       this.container.append(this.renderer.domElement);
 
@@ -193,8 +214,8 @@ export default {
     },
     onWindowResize() {
       //FOR FULL WINDOW
-      this.width = this.container.clientWidth
-      this.height = this.container.clientHeight
+      this.width = this.container.clientWidth;
+      this.height = this.container.clientHeight;
       this.camera.aspect = this.width / this.height;
       this.camera.updateProjectionMatrix();
       this.renderer.setSize(this.width, this.height);
@@ -349,7 +370,7 @@ export default {
   mounted() {
     this.init();
     // this.animate()
-  }
+  },
 };
 </script>
 

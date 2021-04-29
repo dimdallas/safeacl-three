@@ -29,7 +29,10 @@ const actions = {
             const headers = {
                 'Content-Type': 'application/json',
             }
-            BackEndApi.postCalls('/auth/login', credentials, headers)
+            const config = {
+                headers: headers
+            }
+            BackEndApi.postCalls('/auth/login', credentials, config)
                 .then((response) => {
 
                     // console.log(response)
@@ -60,81 +63,7 @@ const actions = {
 
             context.commit('deleteToken')
         }
-    },
-    registerUser(context, payload) {
-        return new Promise((resolve, reject) => {
-            const headers = {
-                'Content-Type': 'application/json',
-            }
-            BackEndApi.postCalls('/auth/register', payload, headers)
-                .then(response => {
-                    resolve(response)
-                    // console.log(response)
-                })
-                .catch(error => {
-                    console.log(error)
-                    reject(error)
-                })
-        })
-    },
-    getProfile(context, token) {
-        // console.log(token)
-        return new Promise((resolve, reject) => {
-            const headers = {
-                'Content-Type': 'application/json',
-                Authorization: token
-            }
-            // console.log(headers)
-            BackEndApi.getCalls('/users/profile', headers)
-                .then(response => {
-                    resolve(response)
-                    // console.log(response)
-                })
-                .catch(error => {
-                    // console.log(error)
-                    reject(error)
-                })
-        })
-    },
-    getPatients(context, token) {
-        // console.log(token)
-        return new Promise((resolve, reject) => {
-            const headers = {
-                'Content-Type': 'application/json',
-                Authorization: token
-            }
-            // console.log(headers)
-            BackEndApi.getCalls('/patients', headers)
-                .then(response => {
-                    resolve(response)
-                    // console.log(response)
-                })
-                .catch(error => {
-                    // console.log(error)
-                    reject(error)
-                })
-        })
-    },
-    getLatestPatient(context, token) {
-        // console.log(token)
-        return new Promise((resolve, reject) => {
-            const headers = {
-                'Content-Type': 'application/json',
-                Authorization: token
-            }
-            // console.log(headers)
-            BackEndApi.getCalls('/patients', headers)
-                .then(response => {
-                    const patients = response.data.message
-                    console.log(patients)
-                    resolve(patients)
-                })
-                .catch(error => {
-                    // console.log(error)
-                    reject(error)
-                })
-        })
-    },
+    }
 }
 
 export default {

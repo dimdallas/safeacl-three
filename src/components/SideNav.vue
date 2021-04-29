@@ -8,7 +8,7 @@
     permanent
     mini-variant
     mini-variant-width="140"
-    height="350"
+    height="300"
     class="teal darken-4"
   >
     <!-- <v-list>
@@ -42,13 +42,13 @@
           <v-list-item-subtitle align="center">Patients Board</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item router to="/patientstable">
+      <!-- <v-list-item router to="/patientstable">
         <v-list-item-content>
           <v-icon class="mb-2">fas fa-id-card</v-icon>
           <v-list-item-subtitle align="center">Patients Table</v-list-item-subtitle>
         </v-list-item-content>
-      </v-list-item>
-      <v-list-item router to="/overview">
+      </v-list-item> -->
+      <v-list-item router to="/simulations">
         <v-list-item-content>
           <v-icon class="mb-2">fas fa-notes-medical</v-icon>
           <v-list-item-subtitle align="center"

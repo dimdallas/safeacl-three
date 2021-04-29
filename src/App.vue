@@ -6,6 +6,7 @@
       background: linear-gradient(to right, #008080, #6DF3F3, #008080);"
   >
     <Nav/>
+    <!-- <v-main class="fill-height"> -->
     <v-main>
       <router-view/>
     </v-main>

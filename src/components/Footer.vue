@@ -1,7 +1,7 @@
 <template>
   <!-- <v-footer v-bind="localAttrs" padless> -->
   <v-footer padless>
-    <v-card flat tile width="100%" class="teal text-center">
+    <v-card flat tile width="100%" class="teal">
       <!--        <v-card-text>-->
       <!--          <v-btn-->
       <!--              v-for="icon in icons"-->
@@ -17,8 +17,8 @@
 
       <v-divider></v-divider>
 
-      <v-card-text class="white--text">
-        {{ new Date().getFullYear() }} — <strong>NITLab</strong>
+      <v-card-text class="white--text text-right">
+        {{ new Date().getFullYear() }} — <strong>NITLab, Informatics and Telematics Institute</strong>
       </v-card-text>
     </v-card>
   </v-footer>

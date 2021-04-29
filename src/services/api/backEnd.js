@@ -2,19 +2,17 @@ import axios from 'axios'
 
 
 export default {
-    postCalls(route, data, headers) {
-        // console.log(data)
-        // console.log(headers)
-        return axios.post('http://10.64.92.213:8883' + route, data, headers)
+    postCalls(route, data, config) {
+        console.log(data)
+        console.log(config)
+        return axios.post('http://10.64.92.213:8883' + route, data, config)
             .then(response => {
+                console.log(response)
                 return response;
             })
     },
-    getCalls(route, headers) {
+    getCalls(route, config) {
         // console.log(headers)
-        const config = {
-            headers: headers
-        }
         return axios.get('http://10.64.92.213:8883' + route, config)
             .then(response => {
                 return response
