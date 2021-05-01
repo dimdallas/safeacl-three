@@ -3,11 +3,11 @@ import axios from 'axios'
 
 export default {
     postCalls(route, data, config) {
-        console.log(data)
-        console.log(config)
+        // console.log(data)
+        // console.log(config)
         return axios.post('http://10.64.92.213:8883' + route, data, config)
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 return response;
             })
     },

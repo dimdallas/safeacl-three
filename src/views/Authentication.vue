@@ -1,6 +1,6 @@
 <template>
   <v-main class="fill-height">
-    <v-card max-height="95%" max-width="700" class="teal lighten-3 mx-auto">
+    <v-card max-height="95%" max-width="700" elevation="0" class="transparent mx-auto">
       <v-row justify="center" align="start">
         <v-col>
           <v-container>
@@ -212,7 +212,7 @@ export default {
           password: this.input.password,
         })
         .then((success) => {
-          console.log("login  " + success);
+          console.log("loging in  " + success);
 
           // var token = localStorage.getItem("access_token");
           // var userId = localStorage.getItem("user_id");

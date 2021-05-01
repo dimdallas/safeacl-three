@@ -3,8 +3,12 @@
     <side-nav />
     <v-row class="fill-height corrected">
       <v-col>
-        <v-window v-model="step" class="d-flex flex-column fill-height">
-          <v-window-item :value="1" class="d-flex fill-height">
+        <!-- <v-container fluid ma-0 pa-0 fill-height> -->
+        <v-window
+          :value="step"
+          class="fill-height"
+        >
+          <v-window-item :value="1" class="fill-height">
             <v-card
               height="90%"
               width="100%"
@@ -42,10 +46,14 @@
               </v-card-actions>
             </v-card>
           </v-window-item>
-          <v-window-item :value="2" class="d-flex flex-column">
-            <patient-profile :patient="profilePatient"/>
+          <v-window-item :value="2" class="fill-height">
+            <patient-profile
+              :patient="profilePatient"
+              @parentFunc="hideProfile"
+            />
           </v-window-item>
         </v-window>
+        <!-- </v-container> -->
       </v-col>
     </v-row>
 
@@ -130,7 +138,7 @@
           <v-divider></v-divider>
           <v-card-actions>
             <v-btn dark color="teal darken-3" class="mx-auto" type="submit"
-              >Create</v-btn
+              >Δημιουργία</v-btn
             >
           </v-card-actions>
         </v-card>
@@ -200,6 +208,10 @@ export default {
       BackEndApi.getCalls("/patients", config)
         .then((response) => {
           this.patientList = response.data.message;
+
+          //TO BE DELETED
+          this.profilePatient = this.patientList[0];
+
           this.maxItems = this.patientList.length;
 
           if (this.maxItems % this.perPage == 0) {
@@ -223,24 +235,24 @@ export default {
         return;
       }
 
-      let bodyDataForm = new FormData();
-      bodyDataForm.append("name", this.newPatient.name);
-      bodyDataForm.append("surname", this.newPatient.surname);
-      bodyDataForm.append("id_num", this.newPatient.id_num);
-      bodyDataForm.append("email", this.newPatient.email);
-      bodyDataForm.append("age", this.newPatient.age);
-      bodyDataForm.append("height", this.newPatient.height);
-      bodyDataForm.append("weight", this.newPatient.weight);
-      bodyDataForm.append("bloodtype", this.newPatient.bloodtype);
-      bodyDataForm.append("description", this.newPatient.description);
-      bodyDataForm.append("image", this.newPatient.image);
+      let payload = new FormData();
+      payload.append("name", this.newPatient.name);
+      payload.append("surname", this.newPatient.surname);
+      payload.append("id_num", this.newPatient.id_num);
+      payload.append("email", this.newPatient.email);
+      payload.append("age", this.newPatient.age);
+      payload.append("height", this.newPatient.height);
+      payload.append("weight", this.newPatient.weight);
+      payload.append("bloodtype", this.newPatient.bloodtype);
+      payload.append("description", this.newPatient.description);
+      payload.append("image", this.newPatient.image);
 
       const headers = {
         "Content-Type": "multipart/form-data",
         Authorization: inMemoryToken,
       };
 
-      BackEndApi.postCalls("/patients", bodyDataForm, { headers })
+      BackEndApi.postCalls("/patients", payload, { headers })
         .then((response) => {
           console.log(response);
           this.getPatients();
@@ -289,17 +301,18 @@ export default {
     },
     displayProfileEvent(valueFromChild) {
       // console.log("from child " + valueFromChild);
-      this.displayList.forEach(patient => {
-        if(patient.patient_id == valueFromChild){
-          this.profilePatient = patient
+      this.displayList.forEach((patient) => {
+        if (patient.patient_id == valueFromChild) {
+          this.profilePatient = patient;
         }
       });
 
       // console.log(this.profilePatient)
-      this.step++
+      this.step++;
     },
-    displayProfile(valueFromChild) {
-      console.log("from child " + valueFromChild);
+    hideProfile() {
+      // console.log("from profile ");
+      this.step--;
     },
   },
   mounted() {

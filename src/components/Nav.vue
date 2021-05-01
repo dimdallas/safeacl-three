@@ -30,8 +30,8 @@ export default {
   },
   methods: {
     logout() {
-      store.dispatch("deleteToken").then((success) => {
-        console.log("logged out " + success);
+      store.dispatch("deleteToken").then(() => {
+        console.log("logged out ");
       });
     },
     // async logout() {

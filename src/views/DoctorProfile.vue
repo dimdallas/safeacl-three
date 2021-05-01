@@ -1,15 +1,13 @@
 <template>
   <v-main class="fill-height">
     <v-card
-      shaped
-      max-width="60%"
+      max-width="55%"
       class="d-flex flex-column teal lighten-3 mx-auto"
     >
       <v-row>
         <v-col>
           <v-img
             class="mx-auto"
-            width="70%"
             :src="require('/public/hospital_green.jpg')"
           >
             <v-row class="fill-height">
@@ -74,7 +72,7 @@
     <v-dialog v-model="settingsDialog" max-width="30%">
       <v-form @submit.prevent="updateProfile">
         <v-card class="teal mx-auto">
-          <v-card-title class="white--text">Update Profile</v-card-title>
+          <v-card-title class="white--text">Ενημέρωση προφίλ</v-card-title>
           <v-container fluid>
             <v-row>
               <v-col>
@@ -257,7 +255,7 @@ export default {
         });
     },
   },
-  mounted() {
+  beforeMount() {
     this.getProfile();
   },
 };

@@ -24,10 +24,10 @@
           <v-list-item-subtitle align="center">Overview</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
-      <!-- <v-list-item router to="/profile">
+      <!-- <v-list-item router to="/patient">
         <v-list-item-content>
           <v-icon class="mb-2">fas fa-user-md</v-icon>
-          <v-list-item-subtitle align="center">Doctor</v-list-item-subtitle>
+          <v-list-item-subtitle align="center">Patient</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item> -->
       <!-- <v-list-item router to="/home">

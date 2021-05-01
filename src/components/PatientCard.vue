@@ -50,10 +50,6 @@ export default {
       type: Object,
       default: null,
     },
-    // parentFunc: {
-    //   type: Function,
-    //   default: null,  
-    // }
   },
   data() {
     return {
@@ -62,38 +58,12 @@ export default {
     };
   },
   beforeMount() {
-    // const inMemoryToken = localStorage.getItem("token");
-    // if (inMemoryToken == null) {
-    //   this.$router.push("/authentication");
-    //   return;
-    // }
-
-    // // console.log(inMemoryToken)
-    // let storeArgs = {
-    //   imgUrl: this.patient.image,
-    //   token: inMemoryToken,
-    // };
-
-    // this.$store
-    //   .dispatch("getPatientImage", storeArgs)
-    //   .then((response) => {
-    //     // console.log(response.data);
-    //     this.image = response.data;
-    //   })
-    //   .catch((error) => {
-    //     console.log("profile error");
-    //     console.log(error);
-    //   });
     this.image = "http://10.64.92.213:8883/" + this.patient.image
     this.patientForParent = this.patient.patient_id
   },
   methods: {
     childFunc(){
-      // console.log(this.patientForParent)
       this.$emit('parentFunc', this.patientForParent)
-      // if(this.parentFunc){
-      //   this.parentFunc(this.patientForParent)
-      // }
     }
   }
 };

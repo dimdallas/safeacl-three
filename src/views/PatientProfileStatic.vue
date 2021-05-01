@@ -1,7 +1,6 @@
 <template>
   <v-main class="fill-height">
     <side-nav />
-    <v-container fluid ma-0 pa-0 fill-height>
       <v-row justify="center" align="center">
         <v-col align-self="start">
           <v-card
@@ -108,7 +107,6 @@
             <three-view />
         </v-col>
       </v-row>
-    </v-container>
   </v-main>
 </template>
 

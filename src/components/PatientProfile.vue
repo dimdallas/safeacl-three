@@ -1,133 +1,424 @@
 <template>
-  <v-main class="fill-height">
-    <side-nav />
-    <v-container fluid ma-0 pa-0 fill-height>
-      <v-row justify="center" align="center">
-        <v-col align-self="start">
-          <v-card
-            class="ma-10 text-center mx-auto"
-            width="400"
-            shaped
-            elevation="10"
-          >
-            <v-avatar class="mt-n7" size="60" elevation="10">
-              <img src="img2m.png" />
-            </v-avatar>
-            <v-card-title class="layout justify-center"
-              >{{patient.name}} {{patient.surname}}</v-card-title
+  <v-card
+    height="90%"
+    width="100%"
+    class="d-flex flex-column teal lighten-3 mx-auto"
+  >
+    <v-container fill-height>
+      <v-row justify="center" align="start">
+        <v-col align-self="start" class="fill-height">
+          <v-card width="60%" class="mx-auto" elevation="0">
+            <v-card-title
+              >{{ patient.name }} {{ patient.surname }}</v-card-title
             >
-            <v-card-subtitle class="layout justify-center"
-              >{{patient.age}} χρονών, Βόλος</v-card-subtitle
-            >
-            <v-list class="mt-n5 ma-0">
-              <v-list-item>
-                <v-list-item-title class="cyan--text text--darken-1"
-                  >Τύπος Αίματος</v-list-item-title
-                >
-                <v-list-item-title class="cyan--text text--darken-1"
-                  >Ύψος</v-list-item-title
-                >
-                <v-list-item-title class="cyan--text text--darken-1"
-                  >Βάρος</v-list-item-title
-                >
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-subtitle>{{patient.bloodtype}}</v-list-item-subtitle>
-                <v-list-item-subtitle>{{patient.height}} cm</v-list-item-subtitle>
-                <v-list-item-subtitle>{{patient.weight}} Kg</v-list-item-subtitle>
-              </v-list-item>
-            </v-list>
-          </v-card>
-          <!-- <v-divider vertical></v-divider> -->
-
-          <v-card class="ma-10 mx-auto" width="400" shaped elevation="10">
-            <v-list class="mt-n5">
-              <v-list-item>
-                <v-list-item-avatar
-                  size="10"
-                  color="cyan darken-1"
-                ></v-list-item-avatar>
-                <v-list-item-title class="ml-n2">Kognum</v-list-item-title>
-                <v-list-item-subtitle>10 mg</v-list-item-subtitle>
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-title class="cyan--text text--darken-1"
-                  >ΔΕΥ</v-list-item-title
-                >
-                <v-list-item-title class="cyan--text text--darken-1"
-                  >ΤΕΤ</v-list-item-title
-                >
-                <v-list-item-title class="cyan--text text--darken-1"
-                  >ΠΑΡ</v-list-item-title
-                >
-                <v-list-item-title class="cyan--text text--darken-1"
-                  >ΚΥΡ</v-list-item-title
-                >
-              </v-list-item>
-              <v-list-item class="mt-n5">
-                <v-list-item-subtitle
-                  >2 φορές την ημέρα πριν το φαγητό</v-list-item-subtitle
-                >
-              </v-list-item>
-            </v-list>
+            <v-card-subtitle>Εισήχθη στις {{ this.createdAt }}</v-card-subtitle>
             <v-divider></v-divider>
-            <!-- <v-list two-line="" subheader="">
-                  <v-list-item>
-                    <v-list-item-avatar size="35">
-                      <img src="favicon.ico">
-                    </v-list-item-avatar>
-                    <v-list-item-content class="ml-n2">
-                      <v-list-item-title>Dr Isabella Bowers</v-list-item-title>
-                      <v-list-item-subtitle>California Hospital Medical</v-list-item-subtitle>
-                    </v-list-item-content>
-                  </v-list-item>
-                </v-list> -->
-            <v-list two-line="" subheader="" class="mt-n5">
-              <v-list-item>
-                <v-list-item-title>Χειρουργείο</v-list-item-title>
-                <v-list-item-subtitle>{{patient.description}}</v-list-item-subtitle>
-              </v-list-item>
-            </v-list>
-            <v-list two-line="" subheader="" class="my-n8">
-              <v-list-item>
-                <v-list-item-title class="cyan--text text--darken-1"
-                  >Ημερομηνία</v-list-item-title
-                >
-                <v-list-item-title class="cyan--text text--darken-1"
-                  >Ώρα</v-list-item-title
-                >
-              </v-list-item>
-              <v-list-item class="mt-n10">
-                <v-list-item-title>24 Μαρτίου 2021</v-list-item-title>
-                <v-list-item-title>14:45</v-list-item-title>
-              </v-list-item>
-            </v-list>
+            <v-img max-height="200" :src="this.image" />
           </v-card>
+          <v-list width="60%" class="mx-auto" color="transparent">
+            <v-list-item>
+              <v-btn text> Προσομοιωση 1 </v-btn>
+              <v-spacer></v-spacer>
+              <v-card-text class="text-right"> 21/04/2021 </v-card-text>
+            </v-list-item>
+            <v-divider></v-divider>
+            <v-list-item>
+              <v-btn text> Προσομοιωση 2 </v-btn>
+              <v-spacer></v-spacer>
+              <v-card-text class="text-right"> 25/04/2021 </v-card-text>
+            </v-list-item>
+            <v-divider></v-divider>
+            <v-list-item>
+              <v-btn text> Προσομοιωση 3 </v-btn>
+              <v-spacer></v-spacer>
+              <v-card-text class="text-right"> 30/04/2021 </v-card-text>
+            </v-list-item>
+            <v-divider></v-divider>
+          </v-list>
+          <v-container fill-height>
+            <v-row justify="center" align="end">
+              <v-btn dark class="teal darken-3">Καινουρια Προσομοiωση</v-btn>
+            </v-row>
+          </v-container>
         </v-col>
         <v-col align-self="start">
-            <three-view />
+          <v-container fill-height class="d-flex flex-column">
+            <v-list width="60%" class="mx-auto fill-height" color="transparent">
+              <v-subheader class="black--text">Στοιχεία</v-subheader>
+              <v-list-item>
+                <v-list-item-title>Αριθμός ταυτότητας</v-list-item-title>
+                <v-spacer></v-spacer>
+                <v-list-item-subtitle class="text-right">{{
+                  this.patient.id_num
+                }}</v-list-item-subtitle>
+              </v-list-item>
+              <v-divider></v-divider>
+              <v-list-item>
+                <v-list-item-title>E-mail</v-list-item-title>
+                <v-spacer></v-spacer>
+                <v-list-item-subtitle class="text-right">{{
+                  this.patient.email
+                }}</v-list-item-subtitle>
+              </v-list-item>
+              <v-divider></v-divider>
+            </v-list>
+
+            <v-list width="60%" class="mx-auto fill-height" color="transparent">
+              <v-subheader class="black--text"
+                >Ιατρικές Πληροφορίες</v-subheader
+              >
+              <v-list-item>
+                <v-list-item-title>Ομάδα αίματος</v-list-item-title>
+                <v-spacer></v-spacer>
+                <v-list-item-subtitle class="text-right">{{
+                  this.patient.bloodtype
+                }}</v-list-item-subtitle>
+              </v-list-item>
+              <v-divider></v-divider>
+              <v-list-item>
+                <v-list-item-title>Ηλικία</v-list-item-title>
+                <v-spacer></v-spacer>
+                <v-list-item-subtitle class="text-right"
+                  >{{ this.patient.age }} χρονών</v-list-item-subtitle
+                >
+              </v-list-item>
+              <v-divider></v-divider>
+              <v-list-item>
+                <v-list-item-title>Ύψος</v-list-item-title>
+                <v-spacer></v-spacer>
+                <v-list-item-subtitle class="text-right"
+                  >{{ this.patient.height }} cm</v-list-item-subtitle
+                >
+              </v-list-item>
+              <v-divider></v-divider>
+              <v-list-item>
+                <v-list-item-title>Βάρος</v-list-item-title>
+                <v-spacer></v-spacer>
+                <v-list-item-subtitle class="text-right"
+                  >{{ this.patient.weight }} kg</v-list-item-subtitle
+                >
+              </v-list-item>
+              <v-divider></v-divider>
+              <v-list-item>
+                <v-list-item-title>Περιγραφή</v-list-item-title>
+                <v-spacer></v-spacer>
+                <v-list-item-subtitle class="text-right">{{
+                  this.patient.description
+                }}</v-list-item-subtitle>
+              </v-list-item>
+              <v-divider></v-divider>
+            </v-list>
+          </v-container>
+          <v-container fill-height>
+            <v-row justify="center" align="end">
+              <v-btn
+                dark
+                class="teal darken-3"
+                @click.stop="updateDialog = true"
+                >Ενημέρωση προφίλ</v-btn
+              >
+            </v-row>
+            <!-- <v-row justify="center" align="end">
+              <v-btn dark class="teal darken-3">Διαγραφή ασθενή</v-btn>
+            </v-row> -->
+          </v-container>
         </v-col>
       </v-row>
     </v-container>
-  </v-main>
+
+    <v-dialog v-model="updateDialog" max-width="40%">
+      <v-form @submit.prevent="updateProfile">
+        <v-card class="teal mx-auto">
+          <v-card-title class="white--text">Στοιχεία Ασθενή</v-card-title>
+          <v-container fluid>
+            <v-row>
+              <v-col>
+                <v-card-text>
+                  <v-text-field
+                    dark
+                    v-model="updateData.name"
+                    label="First name"
+                    prepend-icon="mdi-account"
+                  />
+                  <v-text-field
+                    dark
+                    v-model="updateData.surname"
+                    label="Last name"
+                    prepend-icon="mdi-account"
+                  />
+                  <v-text-field
+                    disabled
+                    dark
+                    v-model="updateData.id_num"
+                    label="ID number"
+                    prepend-icon="mdi-account"
+                  />
+                  <v-text-field
+                    disabled
+                    dark
+                    v-model="updateData.email"
+                    label="email"
+                    prepend-icon="mdi-email"
+                  />
+                  <v-file-input
+                    dark
+                    v-model="updateData.image"
+                    label="Picture"
+                    prepend-icon="mdi-file-image"
+                  />
+                </v-card-text>
+              </v-col>
+              <v-col>
+                <v-card-text>
+                  <v-text-field
+                    dark
+                    v-model="updateData.age"
+                    label="age"
+                    prepend-icon="mdi-account"
+                  />
+                  <v-text-field
+                    dark
+                    v-model="updateData.height"
+                    label="height"
+                    prepend-icon="mdi-human-male-height-variant"
+                  />
+                  <v-text-field
+                    dark
+                    v-model="updateData.weight"
+                    label="weight"
+                    prepend-icon="mdi-weight-kilogram"
+                  />
+                  <v-text-field
+                    dark
+                    v-model="updateData.bloodtype"
+                    label="bloodtype"
+                    prepend-icon="mdi-water"
+                  />
+                  <v-text-field
+                    dark
+                    v-model="updateData.description"
+                    label="Describe situation"
+                    prepend-icon="mdi-card-text
+              "
+                  />
+                </v-card-text>
+              </v-col>
+            </v-row>
+          </v-container>
+          <v-card-text> </v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-btn dark color="teal darken-3" class="mx-auto" type="submit"
+              >Ενημέρωση</v-btn
+            >
+          </v-card-actions>
+        </v-card>
+      </v-form>
+    </v-dialog>
+  </v-card>
 </template>
 
 <script>
-import SideNav from "../components/SideNav.vue";
-import ThreeView from "./ThreeView.vue";
+import BackEndApi from "../services/api/backEnd";
+import def_image from "/public/img6.png";
+
+function formatDate(fetchedInfo) {
+  let day;
+  let month;
+  let year;
+  // let hour;
+  // let minutes;
+  // let seconds;
+
+  let date = fetchedInfo.split("T")[0].split("-");
+  // let time = fetchedInfo.split('T')[1].split('.')[0];
+
+  day = date[2];
+  month = date[1];
+  year = date[0];
+
+  let formattedDate = day + "/" + month + "/" + year;
+  return formattedDate;
+}
 
 export default {
-  components: { SideNav, ThreeView },
   name: "PatientProfile",
   props: {
     patient: Object,
   },
+  data() {
+    return {
+      image: def_image,
+      createdAt: "DD/MM/YYYY",
+      updateDialog: false,
+      updatedDialog: false,
+      deleteDialog: false,
+      deletedDialog: false,
+      updateData: {
+        name: "",
+        surname: "",
+        age: "",
+        height: "",
+        weight: "",
+        bloodtype: "",
+        description: "",
+        image: File
+      },
+    };
+  },
+  methods: {
+    childFunc() {
+      this.$emit("parentFunc");
+    },
+    getProfile() {
+      const inMemoryToken = localStorage.getItem("token");
+      if (inMemoryToken == null) {
+        this.$router.push("/authentication");
+        return;
+      }
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: inMemoryToken,
+        },
+      };
+
+      BackEndApi.getCalls("/patients/" + this.patient.patient_id, config)
+        .then((response) => {
+          this.patient = response.data.doctor;
+
+          // if (this.patient.image != null) {
+          //   console.log("one")
+          //   this.image = "http://10.64.92.213:8883/" + this.patient.image;
+          // }
+        })
+        .catch((error) => {
+          console.log("getProfile error");
+          console.log(error.response.data.message);
+          // localStorage.removeItem("token")
+          // this.$store.dispatch("deleteToken").then(() => {
+          //   console.log("removed old token");
+          // });
+          // this.$router.push("/authentication");
+        });
+    },
+    updateProfile() {
+      const inMemoryToken = localStorage.getItem("token");
+      if (inMemoryToken == null) {
+        this.$router.push("/authentication");
+        return;
+      }
+
+
+      let payload = new FormData();
+      payload.append("name", this.updateData.name);
+      payload.append("surname", this.updateData.surname);
+      payload.append("age", this.updateData.age);
+      payload.append("height", this.updateData.height);
+      payload.append("weight", this.updateData.weight);
+      payload.append("bloodtype", this.updateData.bloodtype);
+      payload.append("description", this.updateData.description);
+      payload.append("image", this.updateData.image);
+
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: inMemoryToken,
+        },
+      };
+
+      BackEndApi.putCalls(
+        "/patients/" + this.patient.patient_id,
+        payload,
+        config
+      )
+        .then((response) => {
+          console.log("update success" + response.data.message);
+          this.getProfile();
+
+          this.updateDialog = false;
+          // this.updatedDialog = true;
+        })
+        .catch((error) => {
+          console.log("updateProfile error");
+          console.log(error.response.data.message);
+          // localStorage.removeItem("token")
+          // this.$store.dispatch("deleteToken").then(() => {
+          //   console.log("removed old token");
+          // });
+          // this.$router.push("/authentication");
+        });
+    },
+  },
+  // beforeCreate() {
+  //   console.log("1 beforeCreate");
+  // },
+  // created() {
+  //   console.log("2 created");
+  // },
+  beforeMount() {
+    // console.log("3 beforeMount");
+    this.image = "http://10.64.92.213:8883/" + this.patient.image;
+
+    // console.log(this.patient)
+    this.createdAt = formatDate(this.patient.createdAt);
+
+    this.updateData.name = this.patient.name;
+    this.updateData.surname = this.patient.surname;
+    this.updateData.age = this.patient.age;
+    this.updateData.height = this.patient.height;
+    this.updateData.weight = this.patient.weight;
+    this.updateData.bloodtype = this.patient.bloodtype;
+    this.updateData.description = this.patient.description;
+    // this.updateData.image = File;
+  },
+  // mounted() {
+  //   console.log("4 mounted");
+  // },
+  beforeUpdate() {
+    console.log("5 beforeUpdate");
+    console.log("two");
+    this.image = "http://10.64.92.213:8883/" + this.patient.image;
+    this.createdAt = formatDate(this.patient.createdAt);
+
+    this.updateData.name = this.patient.name;
+    this.updateData.surname = this.patient.surname;
+    this.updateData.age = this.patient.age;
+    this.updateData.height = this.patient.height;
+    this.updateData.weight = this.patient.weight;
+    this.updateData.bloodtype = this.patient.bloodtype;
+    this.updateData.description = this.patient.description;
+    // this.updateData.image = File;
+  },
+  // updated() {
+  //   console.log("6 updated");
+  // },
+  // activated() {
+  //   console.log("7 activated");
+  // },
+  // deactivated() {
+  //   console.log("8 deactivated");
+  // },
+  // beforeDestroy() {
+  //   console.log("11 beforeDestroy");
+  // },
+  // destroyed() {
+  //   console.log("12 destroyed");
+  // },
+  // errorCapture() {
+  //   console.log("13 errorCapture");
+  // },
+  // renderTracked({ key, target, type }) {
+  //   console.log("14 renderTracked");
+  //   console.log({ key, target, type });
+  // },
+  // renderTriggered({ key, target, type }) {
+  //   console.log("15 renderTriggered");
+  //   console.log({ key, target, type });
+  // },
 };
 </script>
 
-<style scoped>
-.rounded {
-  border-top-left-radius: 50px;
-  border-bottom-left-radius: 50px;
-}
+<style>
 </style>
