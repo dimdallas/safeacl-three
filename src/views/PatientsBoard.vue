@@ -47,9 +47,11 @@
             </v-card>
           </v-window-item>
           <v-window-item :value="2" class="fill-height">
+            <!-- <v-btn>Go back</v-btn> -->
             <patient-profile
               :patient="profilePatient"
-              @parentFunc="hideProfile"
+              @parentFuncHide="hideProfile"
+              @parentFuncDelete="deleteRefresh"
             />
           </v-window-item>
         </v-window>
@@ -89,12 +91,12 @@
                     label="email"
                     prepend-icon="mdi-email"
                   />
-                  <v-file-input
+                  <!-- <v-file-input
                     dark
                     v-model="newPatient.image"
                     label="Picture"
                     prepend-icon="mdi-file-image"
-                  />
+                  /> -->
                 </v-card-text>
               </v-col>
               <v-col>
@@ -179,12 +181,10 @@ export default {
         weight: null,
         bloodtype: null,
         description: null,
-        image: File,
+        // image: File,
       },
       createDialog: false,
       createdDialog: false,
-      updateDialog: false,
-      updatedDialog: false,
       deleteDialog: false,
       deletedDialog: false,
       step: 1,
@@ -235,7 +235,7 @@ export default {
         return;
       }
 
-      let payload = new FormData();
+      /* let payload = new FormData();
       payload.append("name", this.newPatient.name);
       payload.append("surname", this.newPatient.surname);
       payload.append("id_num", this.newPatient.id_num);
@@ -245,10 +245,12 @@ export default {
       payload.append("weight", this.newPatient.weight);
       payload.append("bloodtype", this.newPatient.bloodtype);
       payload.append("description", this.newPatient.description);
-      payload.append("image", this.newPatient.image);
+      payload.append("image", this.newPatient.image); */
+      let payload = this.newPatient
 
+      console.log(payload)
       const headers = {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         Authorization: inMemoryToken,
       };
 
@@ -312,6 +314,11 @@ export default {
     },
     hideProfile() {
       // console.log("from profile ");
+      this.step--;
+    },
+    deleteRefresh() {
+      // console.log("from profile ");
+      this.getPatients();
       this.step--;
     },
   },

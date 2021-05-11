@@ -67,12 +67,12 @@
                             label="Username"
                             prepend-icon="mdi-account-box"
                           />
-                          <v-file-input
+                          <!-- <v-file-input
                             dark
                             v-model="credData.image"
                             label="Picture"
                             prepend-icon="mdi-file-image"
-                          />
+                          /> -->
                         </v-card-text>
                       </v-col>
                       <v-col>
@@ -190,7 +190,7 @@ export default {
         username: "",
         email: "",
         password: "",
-        image: File,
+        // image: File,
       },
       showPassword: false,
       loading: false,
@@ -228,19 +228,21 @@ export default {
     register() {
       this.loading = true;
 
-      let payload = new FormData();
-      payload.append("name", this.credData.name);
-      payload.append("surname", this.credData.surname);
-      payload.append("phone", this.credData.phone);
-      payload.append("address", this.credData.address);
-      payload.append("speciality", this.credData.speciality);
-      payload.append("username", this.credData.username);
-      payload.append("email", this.credData.email);
-      payload.append("password", this.credData.password);
-      payload.append("image", this.credData.image);
+      // let payload = new FormData();
+      // payload.append("name", this.credData.name);
+      // payload.append("surname", this.credData.surname);
+      // payload.append("phone", this.credData.phone);
+      // payload.append("address", this.credData.address);
+      // payload.append("speciality", this.credData.speciality);
+      // payload.append("username", this.credData.username);
+      // payload.append("email", this.credData.email);
+      // payload.append("password", this.credData.password);
+      // payload.append("image", this.credData.image);
+
+      let payload = this.credData;
 
       const config = {
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: { "Content-Type": "application/json" },
       };
 
       BackEndApi.postCalls("/auth/register", payload, config)

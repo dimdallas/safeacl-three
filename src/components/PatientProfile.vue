@@ -4,16 +4,19 @@
     width="100%"
     class="d-flex flex-column teal lighten-3 mx-auto"
   >
+    <v-card-actions>
+      <v-icon @click="childFuncHide">mdi-arrow-left</v-icon>
+    </v-card-actions>
     <v-container fill-height>
       <v-row justify="center" align="start">
-        <v-col align-self="start" class="fill-height">
-          <v-card width="60%" class="mx-auto" elevation="0">
+        <v-col align-self="start">
+          <v-card width="50%" class="mx-auto" elevation="0">
             <v-card-title
               >{{ patient.name }} {{ patient.surname }}</v-card-title
             >
             <v-card-subtitle>Εισήχθη στις {{ this.createdAt }}</v-card-subtitle>
             <v-divider></v-divider>
-            <v-img max-height="200" :src="this.image" />
+            <v-img max-height="250" :src="this.image" />
           </v-card>
           <v-list width="60%" class="mx-auto" color="transparent">
             <v-list-item>
@@ -115,7 +118,15 @@
                 dark
                 class="teal darken-3"
                 @click.stop="updateDialog = true"
-                >Ενημέρωση προφίλ</v-btn
+                >Ενημερωση προφιλ</v-btn
+              >
+            </v-row>
+            <v-row justify="center" align="end">
+              <v-btn
+                dark
+                class="teal darken-3"
+                @click.stop="deleteDialog = true"
+                >Διαγραφη Ασθενη</v-btn
               >
             </v-row>
             <!-- <v-row justify="center" align="end">
@@ -215,6 +226,35 @@
         </v-card>
       </v-form>
     </v-dialog>
+
+    <v-dialog v-model="deleteDialog" max-width="40%">
+      <v-form @submit.prevent="deleteProfile">
+        <v-card class="teal mx-auto">
+          <v-card-title class="white--text">Επιβεβαιώνετε την διαγραφή;</v-card-title>
+          <v-card-actions>
+            <v-btn dark color="teal darken-3" class="mx-auto" type="submit"
+              >Ναι</v-btn
+            >
+            <v-btn dark color="teal darken-3" class="mx-auto" @click="deleteDialog=false"
+              >Οχι</v-btn
+            >
+          </v-card-actions>
+        </v-card>
+      </v-form>
+    </v-dialog>
+
+    <v-dialog v-model="deletedDialog" max-width="40%">
+      <v-form @submit.prevent="childFuncDelete">
+        <v-card class="teal mx-auto">
+          <v-card-title class="white--text">Ασθενής διεγράφη</v-card-title>
+          <v-card-actions>
+            <v-btn dark color="teal darken-3" class="mx-auto" type="submit"
+              >ΟΚ</v-btn
+            >
+          </v-card-actions>
+        </v-card>
+      </v-form>
+    </v-dialog>
   </v-card>
 </template>
 
@@ -262,13 +302,23 @@ export default {
         weight: "",
         bloodtype: "",
         description: "",
-        image: File
+        image: File,
       },
     };
   },
   methods: {
-    childFunc() {
-      this.$emit("parentFunc");
+    childFuncHide() {
+      this.updateDialog = false;
+      this.updatedDialog = false;
+      this.deleteDialog = false;
+      this.deletedDialog = false;
+      this.$emit("parentFuncHide");
+    },
+    childFuncDelete() {
+      this.updateDialog = false;
+      this.updatedDialog = false;
+      this.deleteDialog = false;
+      this.deletedDialog = false;
     },
     getProfile() {
       const inMemoryToken = localStorage.getItem("token");
@@ -310,7 +360,6 @@ export default {
         return;
       }
 
-
       let payload = new FormData();
       payload.append("name", this.updateData.name);
       payload.append("surname", this.updateData.surname);
@@ -350,6 +399,40 @@ export default {
           // this.$router.push("/authentication");
         });
     },
+    deleteProfile(){
+      const inMemoryToken = localStorage.getItem("token");
+      if (inMemoryToken == null) {
+        this.$router.push("/authentication");
+        return;
+      }
+
+      const config = {
+        headers: {
+          Authorization: inMemoryToken,
+        },
+      };
+
+      BackEndApi.deleteCalls(
+        "/patients/" + this.patient.patient_id,
+        config
+      )
+        .then((response) => {
+          console.log("delete success" + response.data.message);
+
+          this.deleteDialog = false;
+          this.deletedDialog = true;
+          this.$emit("parentFuncDelete");
+        })
+        .catch((error) => {
+          console.log("updateProfile error");
+          console.log(error.response.data.message);
+          // localStorage.removeItem("token")
+          // this.$store.dispatch("deleteToken").then(() => {
+          //   console.log("removed old token");
+          // });
+          // this.$router.push("/authentication");
+        });
+    }
   },
   // beforeCreate() {
   //   console.log("1 beforeCreate");
@@ -359,13 +442,20 @@ export default {
   // },
   beforeMount() {
     // console.log("3 beforeMount");
-    this.image = "http://10.64.92.213:8883/" + this.patient.image;
+    if(this.patient.image != null){
+      this.image = "http://10.64.92.213:8883/" + this.patient.image;
+    }
+    else{
+      this.image = def_image
+    }
 
     // console.log(this.patient)
     this.createdAt = formatDate(this.patient.createdAt);
 
     this.updateData.name = this.patient.name;
     this.updateData.surname = this.patient.surname;
+    this.updateData.name = this.patient.id_num;
+    this.updateData.surname = this.patient.email;
     this.updateData.age = this.patient.age;
     this.updateData.height = this.patient.height;
     this.updateData.weight = this.patient.weight;
@@ -377,13 +467,21 @@ export default {
   //   console.log("4 mounted");
   // },
   beforeUpdate() {
-    console.log("5 beforeUpdate");
-    console.log("two");
-    this.image = "http://10.64.92.213:8883/" + this.patient.image;
+    // console.log("5 beforeUpdate");
+    // console.log("two");
+    if(this.patient.image != null){
+      this.image = "http://10.64.92.213:8883/" + this.patient.image;
+    }
+    else{
+      this.image = def_image
+    }
+
     this.createdAt = formatDate(this.patient.createdAt);
 
     this.updateData.name = this.patient.name;
     this.updateData.surname = this.patient.surname;
+    this.updateData.name = this.patient.id_num;
+    this.updateData.surname = this.patient.email;
     this.updateData.age = this.patient.age;
     this.updateData.height = this.patient.height;
     this.updateData.weight = this.patient.weight;

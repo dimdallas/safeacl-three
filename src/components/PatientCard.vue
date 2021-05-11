@@ -58,7 +58,9 @@ export default {
     };
   },
   beforeMount() {
-    this.image = "http://10.64.92.213:8883/" + this.patient.image
+    if(this.patient.image != null){
+      this.image = "http://10.64.92.213:8883/" + this.patient.image
+    }
     this.patientForParent = this.patient.patient_id
   },
   methods: {
